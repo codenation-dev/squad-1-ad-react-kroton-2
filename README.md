@@ -38,4 +38,20 @@ yarn start
 
 ## Deploy
 
-🚧🚧🚧🚧
+Para fazer o deploy, será necessária a ferramenta `now`, para baixar execute:
+
+```sh
+yarn global add now
+```
+
+Antes de fazer deploy, certifique de estar logado com o time `squad-1-ad-react-kroton-2`, executando o comando:
+
+```sh
+now switch
+```
+
+Quando no time, execute na raiz do projeto para efetuar o deploy:
+
+```sh
+now
+```
