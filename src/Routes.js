@@ -10,7 +10,9 @@ const PrivateRoute = ({ component, authed, ...rest }) => (
       authed === true ? (
         component({ ...props })
       ) : (
-        <Redirect to={{ pathname: '/', state: { from: props.location } }} />
+        <Redirect
+          to={{ pathname: '/login', state: { from: props.location } }}
+        />
       )
     }
   />
@@ -20,7 +22,7 @@ const PublicRoute = ({ component, authed, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      authed === false ? component({ ...props }) : <Redirect to="/painel" />
+      authed === false ? component({ ...props }) : <Redirect to="/" />
     }
   />
 );
@@ -41,7 +43,7 @@ function Routes() {
 
   return (
     <Switch>
-      <PublicRoute path="/" exact authed={authed} component={Login} />
+      <PublicRoute path="/login" authed={authed} component={Login} />
       <PublicRoute
         path="/cadastro"
         authed={authed}
@@ -53,7 +55,8 @@ function Routes() {
         component={() => <h1>Recuperação de senha</h1>}
       />
       <PrivateRoute
-        path="/painel"
+        exact
+        path="/"
         authed={authed}
         component={() => <h1>Painel</h1>}
       />
