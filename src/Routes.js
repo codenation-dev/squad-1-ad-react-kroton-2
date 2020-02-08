@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Login from './pages/Login';
 import * as firebase from 'firebase/app';
+import Login from './pages/Login';
+import RecuperacaoDeSenha from './pages/RecuperacaoDeSenha';
+import Cadastro from './pages/Cadastro';
+import Painel from './pages/Painel';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
@@ -51,18 +54,18 @@ function Routes() {
       <PublicRoute
         path="/cadastro"
         isAuthenticated={isAuthenticated}
-        component={() => <h1>Cadastro</h1>}
+        component={Cadastro}
       />
       <PublicRoute
         path="/recuperacao-de-senha"
         isAuthenticated={isAuthenticated}
-        component={() => <h1>Recuperação de senha</h1>}
+        component={RecuperacaoDeSenha}
       />
       <PrivateRoute
         exact
         path="/"
         isAuthenticated={isAuthenticated}
-        component={() => <h1>Painel</h1>}
+        component={Painel}
       />
     </Switch>
   );
