@@ -3,11 +3,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import Login from './pages/Login';
 import * as firebase from 'firebase/app';
 
-const PrivateRoute = ({ component, authed, ...rest }) => (
+const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      authed === true ? (
+      isAuthenticated === true ? (
         component({ ...props })
       ) : (
         <Redirect
@@ -18,24 +18,24 @@ const PrivateRoute = ({ component, authed, ...rest }) => (
   />
 );
 
-const PublicRoute = ({ component, authed, ...rest }) => (
+const PublicRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      authed === false ? component({ ...props }) : <Redirect to="/" />
+      isAuthenticated === false ? component({ ...props }) : <Redirect to="/" />
     }
   />
 );
 
 function Routes() {
-  const [authed, setAuthed] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     const unsubscribe = firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        return setAuthed(true);
+        return setIsAuthenticated(true);
       }
-      return setAuthed(false);
+      return setIsAuthenticated(false);
     });
 
     return unsubscribe;
@@ -43,21 +43,25 @@ function Routes() {
 
   return (
     <Switch>
-      <PublicRoute path="/login" authed={authed} component={Login} />
+      <PublicRoute
+        path="/login"
+        isAuthenticated={isAuthenticated}
+        component={Login}
+      />
       <PublicRoute
         path="/cadastro"
-        authed={authed}
+        isAuthenticated={isAuthenticated}
         component={() => <h1>Cadastro</h1>}
       />
       <PublicRoute
         path="/recuperacao-de-senha"
-        authed={authed}
+        isAuthenticated={isAuthenticated}
         component={() => <h1>Recuperação de senha</h1>}
       />
       <PrivateRoute
         exact
         path="/"
-        authed={authed}
+        isAuthenticated={isAuthenticated}
         component={() => <h1>Painel</h1>}
       />
     </Switch>
