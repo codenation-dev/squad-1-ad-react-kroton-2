@@ -9,7 +9,7 @@ import Painel from './pages/Painel';
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    component={props =>
       isAuthenticated === true ? (
         component({ ...props })
       ) : (
@@ -24,7 +24,7 @@ const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
 const PublicRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
+    component={props =>
       isAuthenticated === false ? component({ ...props }) : <Redirect to="/" />
     }
   />
