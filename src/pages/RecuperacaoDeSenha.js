@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { auth } from '../firebase/config';
+import imageResetPassword from '../images/resetPassword.svg';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -29,6 +30,10 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
     width: '300px'
+  },
+  imgSize: {
+    height: 50,
+    marginBottom: 5
   }
 }));
 
@@ -67,8 +72,13 @@ function RecuperacaoDeSenha() {
   return (
     <div>
       <Container component="main" maxWidth="xs">
-        <Box borderRadius="10" {...defaultProps}>
+        <Box borderRadius={15} {...defaultProps}>
           <div className={classes.paper}>
+            <img
+              className={classes.imgSize}
+              src={imageResetPassword}
+              alt="Reset Password"
+            ></img>
             <Typography component="h1" variant="h5">
               Recuperar Senha
             </Typography>
