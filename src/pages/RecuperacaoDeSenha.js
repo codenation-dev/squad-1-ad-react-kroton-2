@@ -65,6 +65,7 @@ function RecuperacaoDeSenha() {
         })
         .catch(function(error) {
           setShowMessage(true);
+          setSeverity('error');
           setMessage(error.message);
         });
     }
