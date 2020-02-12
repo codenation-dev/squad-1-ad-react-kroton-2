@@ -7,7 +7,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import { auth } from '../firebase/config';
+import * as firebase from 'firebase/app';
 import imageResetPassword from '../images/resetPassword.svg';
 
 const useStyles = makeStyles(theme => ({
@@ -53,7 +53,8 @@ function RecuperacaoDeSenha() {
 
   async function resetPassword() {
     if (email) {
-      await auth
+      await firebase
+        .auth()
         .sendPasswordResetEmail(email)
         .then(function() {
           setShowMessage(true);
