@@ -1,4 +1,5 @@
 import React from 'react';
+import Box from '@material-ui/core/Box';
 import Link from '@material-ui/core/Link';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
@@ -10,7 +11,8 @@ import { auth } from '../firebase/config';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: 30,
+    marginBottom: 20,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
@@ -29,6 +31,13 @@ const useStyles = makeStyles(theme => ({
     width: '300px'
   }
 }));
+
+const defaultProps = {
+  bgcolor: 'background.paper',
+  borderColor: 'primary.main',
+  mt: 10,
+  border: 1
+};
 
 function RecuperacaoDeSenha() {
   const [email, setEmail] = React.useState('');
@@ -58,41 +67,43 @@ function RecuperacaoDeSenha() {
   return (
     <div>
       <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            Recuperar Senha
-          </Typography>
-          <TextField
-            required
-            variant="outlined"
-            margin="normal"
-            className="meuInput"
-            id="email"
-            label="e-mail"
-            value={email}
-            onChange={event => setEmail(event.target.value)}
-          />
-          {showMessage && (
-            <div className={classes.center}>
-              <Alert
-                className={classes.submit}
-                variant="filled"
-                severity={severity}
-              >
-                {message}
-              </Alert>
-              <Link href="/login">Retornar ao Login</Link>
-            </div>
-          )}
-          <Button
-            className={classes.submit}
-            variant="contained"
-            color="primary"
-            onClick={resetPassword}
-          >
-            Enviar
-          </Button>
-        </div>
+        <Box borderRadius="10" {...defaultProps}>
+          <div className={classes.paper}>
+            <Typography component="h1" variant="h5">
+              Recuperar Senha
+            </Typography>
+            <TextField
+              required
+              variant="outlined"
+              margin="normal"
+              className="meuInput"
+              id="email"
+              label="e-mail"
+              value={email}
+              onChange={event => setEmail(event.target.value)}
+            />
+            {showMessage && (
+              <div className={classes.center}>
+                <Alert
+                  className={classes.submit}
+                  variant="filled"
+                  severity={severity}
+                >
+                  {message}
+                </Alert>
+                <Link href="/login">Retornar ao Login</Link>
+              </div>
+            )}
+            <Button
+              className={classes.submit}
+              variant="contained"
+              color="primary"
+              onClick={resetPassword}
+            >
+              Enviar
+            </Button>
+          </div>
+        </Box>
       </Container>
     </div>
   );
