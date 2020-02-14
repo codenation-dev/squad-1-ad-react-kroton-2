@@ -1,35 +1,141 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Container } from '@material-ui/core';
-import { FormControl } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
+import { Link } from '@material-ui/core';
+import * as firebase from 'firebase/app';
 
 const useStyles = makeStyles(theme => ({
-  button: {
-    margin: theme.spacing(1)
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f9f9f9'
+  },
+  paper: {
+    width: 380,
+    padding: 40
+  },
+  textMargin: {
+    marginBottom: 20
+  },
+  alert: {
+    color: '#de1414'
+  },
+  buttonMargin: {
+    marginTop: 30
+  },
+  forgotPass: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 30
   }
 }));
 
-function Login() {
+function Login({ history }) {
   const classes = useStyles();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorEmail, setErrorEmail] = useState(false);
+  const [errorPassword, setErrorPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  function validateLogin(event) {
+    event.preventDefault();
+    setErrorPassword(false);
+    setErrorEmail(false);
+
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(response => {
+        history.push('/');
+      })
+      .catch(error => {
+        const errorCode = error.code;
+        setErrorMessage(error.message);
+
+        if (errorCode === 'auth/wrong-password') {
+          setErrorPassword(true);
+        } else {
+          setErrorEmail(true);
+        }
+      });
+  }
+
+  function forgotPassword(event) {
+    event.preventDefault();
+    history.push('/RecuperacaoDeSenha');
+  }
+
+  function createAccount(event) {
+    event.preventDefault();
+    history.push('/Cadastro');
+  }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <FormControl>
-        <TextField id="email" label="Email address" type="e-mail" required />
-        <TextField
-          id="password"
-          label="Password"
-          type="password"
-          autoComplete="current-password"
-          required
-        />
-        <Button variant="contained" color="default" className={classes.button}>
-          Login
-        </Button>
-      </FormControl>
-    </Container>
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={2}>
+        <form onSubmit={validateLogin} noValidate autoComplete="off">
+          <div className={classes.textMargin}>
+            <TextField
+              id="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              label="Email"
+              type="email"
+              autoComplete="current-email"
+              fullWidth
+              required
+            />
+            {errorEmail && (
+              <small className={classes.alert}>{errorMessage}</small>
+            )}
+          </div>
+          <div>
+            <TextField
+              id="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+              fullWidth
+              required
+            />
+            {errorPassword && (
+              <small className={classes.alert}>{errorMessage}</small>
+            )}
+          </div>
+          <Button
+            className={classes.buttonMargin}
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            disableElevation
+          >
+            Login
+          </Button>
+          <div className={classes.forgotPass}>
+            <Link href="#" onClick={forgotPassword}>
+              <small>Forgot password?</small>
+            </Link>
+          </div>
+        </form>
+      </Paper>
+      <div>
+        <small>
+          Don't have an account?{' '}
+          <Link href="#" onClick={createAccount}>
+            Sign Up
+          </Link>
+        </small>
+      </div>
+    </div>
   );
 }
 
