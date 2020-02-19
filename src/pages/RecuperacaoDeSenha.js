@@ -51,6 +51,40 @@ function RecuperacaoDeSenha() {
   const [severity, setSeverity] = React.useState('error');
   const classes = useStyles();
 
+  const errorCodes = [
+    {
+      code: 'auth/invalid-email',
+      description: 'O endereço de e-mail não é válido'
+    },
+    {
+      code: 'auth/missing-android-pkg-name',
+      description:
+        'Um nome de pacote Android deve ser fornecido se o aplicativo Android precisar ser instalado.'
+    },
+    {
+      code: 'auth/missing-continue-uri',
+      description: 'Uma URL de continuação deve ser fornecida na solicitação.'
+    },
+    {
+      code: 'auth/missing-ios-bundle-id',
+      description:
+        'Um ID do pacote iOS deve ser fornecido se um ID da App Store for fornecido.'
+    },
+    {
+      code: 'auth/invalid-continue-uri',
+      description: 'A URL de continuação fornecida na solicitação é inválida.'
+    },
+    {
+      code: 'auth/unauthorized-continue-uri',
+      description:
+        'O domínio da URL de continuação não está na lista de permissões.'
+    },
+    {
+      code: 'auth/user-not-found',
+      description: 'Não há usuário correspondente ao endereço de email.'
+    }
+  ];
+
   async function resetPassword() {
     if (email) {
       await firebase
@@ -60,13 +94,22 @@ function RecuperacaoDeSenha() {
           setShowMessage(true);
           setSeverity('success');
           setMessage(
-            'A password reset email was sent to the given email address.'
+            'Um e-mail de redefinição de senha foi enviado para o endereço de e-mail fornecido.'
           );
         })
         .catch(function(error) {
+          const result = errorCodes.find(function(errorCode) {
+            return error.code === errorCode.code
+              ? errorCode.description
+              : {
+                  code: 'auth/unknow',
+                  description: 'Erro desconhecido'
+                };
+          });
+
           setShowMessage(true);
           setSeverity('error');
-          setMessage(error.message);
+          setMessage(result.description);
         });
     }
   }
