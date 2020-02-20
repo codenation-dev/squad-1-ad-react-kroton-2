@@ -10,6 +10,7 @@ import Container from '@material-ui/core/Container';
 import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import * as firebase from 'firebase/app';
+import errors from '../errorsPtBR.json';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -50,8 +51,9 @@ export default function Cadastro({ history }) {
       alert("Usuário cadastro com sucesso.");
       history.push('/Painel');
     } catch (error) {
-      setErro(error);
+      setErro(errors[error.code] ? errors[error.code] : error.message);
       setAlerta(true);
+      console.log(error)
     }
   }
 
@@ -89,7 +91,7 @@ export default function Cadastro({ history }) {
           />
 
           {alerta &&
-            <Alert className={classes.submit} variant="filled" severity="error">{erro.message}</Alert>
+            <Alert className={classes.submit} variant="filled" severity="error">{erro}</Alert>
           }
 
           <Button
