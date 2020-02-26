@@ -66,16 +66,6 @@ function Login({ history }) {
       });
   }
 
-  function forgotPassword(event) {
-    event.preventDefault();
-    history.push('/RecuperacaoDeSenha');
-  }
-
-  function createAccount(event) {
-    event.preventDefault();
-    history.push('/Cadastro');
-  }
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={2}>
@@ -85,7 +75,7 @@ function Login({ history }) {
               id="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
-              label="Email"
+              label="E-mail"
               type="email"
               autoComplete="current-email"
               fullWidth
@@ -100,7 +90,7 @@ function Login({ history }) {
               id="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              label="Password"
+              label="Senha"
               type="password"
               autoComplete="current-password"
               fullWidth
@@ -121,18 +111,15 @@ function Login({ history }) {
             Login
           </Button>
           <div className={classes.forgotPass}>
-            <Link href="#" onClick={forgotPassword}>
-              <small>Forgot password?</small>
+            <Link href="/recuperacao-de-senha">
+              <small>Esqueceu a senha?</small>
             </Link>
           </div>
         </form>
       </Paper>
       <div>
         <small>
-          Don't have an account?{' '}
-          <Link href="#" onClick={createAccount}>
-            Sign Up
-          </Link>
+          Ainda não possuí cadastro? <Link href="/cadastro">Entre aqui</Link>
         </small>
       </div>
     </div>
