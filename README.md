@@ -55,3 +55,15 @@ Quando no time, execute na raiz do projeto para efetuar o deploy:
 ```sh
 now
 ```
+
+## Gerando dados falsos de alerta
+
+Para inserir dados falsos em um usuário, faça uma requisição para a seguinte URL (pode ser feito direto pelo browser):
+
+```
+https://us-central1-squad-1-ad-react-kroton-2.cloudfunctions.net/createUserData/{userId}
+```
+
+O userId pode ser adquirido em https://console.firebase.google.com/ na aba Database, conforme a imagem:
+
+![image](https://user-images.githubusercontent.com/11249408/75613746-10579100-5b10-11ea-8bcc-350f5e5b2696.png)
