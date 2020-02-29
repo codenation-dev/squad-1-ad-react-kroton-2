@@ -5,6 +5,7 @@ import { TextField } from '@material-ui/core';
 import { Button } from '@material-ui/core';
 import { Link } from '@material-ui/core';
 import * as firebase from 'firebase/app';
+import errors from '../errorsPtBR.json';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -56,7 +57,7 @@ function Login({ history }) {
       })
       .catch(error => {
         const errorCode = error.code;
-        setErrorMessage(error.message);
+        setErrorMessage(errors[errorCode] ? errors[errorCode] : error.message);
 
         if (errorCode === 'auth/wrong-password') {
           setErrorPassword(true);
