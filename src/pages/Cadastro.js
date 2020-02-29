@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Box from '@material-ui/core/Box';
@@ -17,17 +17,17 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'center'
   },
 
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-    width: '300px',
-  },
+    width: '300px'
+  }
 }));
 
 const defaultProps = {
@@ -45,64 +45,75 @@ export default function Cadastro({ history }) {
   const [alerta, setAlerta] = useState(false);
   const [erro, setErro] = useState('');
 
-  async function createAccount() {
+  async function createAccount(event) {
+    event.preventDefault();
+
     try {
-      const usuario = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      alert("Usuário cadastro com sucesso.");
-      history.push('/Painel');
+      await firebase.auth().createUserWithEmailAndPassword(email, password);
+      history.push('/');
     } catch (error) {
       setErro(errors[error.code] ? errors[error.code] : error.message);
       setAlerta(true);
-      console.log(error)
     }
   }
 
   return (
-    <Container component="main" maxWidth="xs" >
-      <Box borderRadius={15} {...defaultProps}>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            Cadastro
-                </Typography>
+    <Container component="main" maxWidth="xs">
+      <form onSubmit={createAccount} noValidate autoComplete="off">
+        <Box borderRadius={15} {...defaultProps}>
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Typography component="h1" variant="h5">
+              Cadastro
+            </Typography>
 
-          <TextField
-            required
-            variant="outlined"
-            margin="normal"
-            className="meuInput"
-            id="email"
-            type="email"
-            label="e-mail"
-            value={email}
-            onChange={event => setEmail(event.target.value)}
-          />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              className="meuInput"
+              id="email"
+              type="email"
+              label="E-mail"
+              value={email}
+              onChange={event => setEmail(event.target.value)}
+              autoComplete="current-email"
+              required
+            />
 
-          <TextField
-            required
-            variant="outlined"
-            margin="normal"
-            className="meuInput"
-            type="password"
-            id="password"
-            label="password"
-            value={password}
-            onChange={event => setPassword(event.target.value)}
-          />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              className="meuInput"
+              type="password"
+              id="password"
+              label="Senha"
+              value={password}
+              onChange={event => setPassword(event.target.value)}
+              autoComplete="current-password"
+              required
+            />
 
-          {alerta &&
-            <Alert className={classes.submit} variant="filled" severity="error">{erro}</Alert>
-          }
+            {alerta && (
+              <Alert
+                className={classes.submit}
+                variant="filled"
+                severity="error"
+              >
+                {erro}
+              </Alert>
+            )}
 
-          <Button
-            className={classes.submit}
-            variant="contained"
-            color="primary"
-            onClick={createAccount}>
-            Cadastrar
-                </Button>
-        </div>
-      </Box>
+            <Button
+              className={classes.submit}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Cadastrar
+            </Button>
+          </div>
+        </Box>
+      </form>
     </Container>
-  )
+  );
 }
