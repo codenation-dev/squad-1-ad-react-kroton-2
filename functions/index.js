@@ -18,7 +18,7 @@ const payload = {
   ambiente: getRandomValueFrom(ambientes),
   origem: getRandomValueFrom(origens),
   coletadoPor: 'usuário XPTO',
-  eventos: 2,
+  eventos: Math.floor(Math.random() * 3000),
   level: getRandomValueFrom(leveis),
   criadoEm: new Date()
 };
