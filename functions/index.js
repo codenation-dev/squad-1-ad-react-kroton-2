@@ -3,6 +3,8 @@ const admin = require('firebase-admin');
 
 admin.initializeApp();
 
+const db = admin.firestore();
+
 const ambientes = ['Produção', 'Homologação', 'Desenvolvimento'];
 const leveis = ['error', 'warning', 'debug'];
 const origens = ['127.0.0.1', '10.0.1.1', 'app.server.com.br'];
@@ -20,13 +22,14 @@ const payload = {
   coletadoPor: 'usuário XPTO',
   eventos: Math.floor(Math.random() * 3000),
   level: getRandomValueFrom(leveis),
-  criadoEm: new Date()
+  criadoEm: new Date(),
+  arquivado: false
 };
 
 exports.createUserData = functions.https.onRequest((request, response) => {
   const userId = request.url.substr(1);
 
-  const usersCollectionRef = admin.firestore().collection('usuários');
+  const usersCollectionRef = db.collection('usuários');
   const userDocumentRef = usersCollectionRef.doc(userId);
   const alertCollectionRef = userDocumentRef.collection('alertas');
 
@@ -36,10 +39,18 @@ exports.createUserData = functions.https.onRequest((request, response) => {
   return alertCollectionRef.add({ ...payload });
 });
 
-exports.createUser = functions.auth.user().onCreate(user => {
-  const { userId } = user;
+exports.createUser = functions.auth.user().onCreate(async user => {
+  const { uid, email } = user;
 
-  const usersCollectionRef = admin.firestore().collection('usuários');
+  const usersCollectionRef = db.collection('usuários');
+  const userAlertCollectionRef = usersCollectionRef
+    .doc(uid)
+    .collection('alertas');
 
-  return usersCollectionRef.doc(userId).set({ ...user });
+  await usersCollectionRef.doc(uid).set({ email });
+  return userAlertCollectionRef.doc('example').set({
+    ...payload,
+    titulo: 'Alerta de exemplo',
+    descricao: 'Este é um exemplo de alerta, fique a vontade para apaga-lo'
+  });
 });
