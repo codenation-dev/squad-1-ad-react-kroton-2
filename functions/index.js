@@ -23,7 +23,7 @@ const payload = {
   criadoEm: new Date()
 };
 
-exports.createData = functions.https.onRequest((request, response) => {
+exports.createUserData = functions.https.onRequest((request, response) => {
   const userId = request.url.substr(1);
 
   const usersCollectionRef = admin.firestore().collection('usuários');
@@ -34,4 +34,12 @@ exports.createData = functions.https.onRequest((request, response) => {
     `Os dados ${JSON.stringify(payload)} serão inseridos no usuário: ${userId}`
   );
   return alertCollectionRef.add({ ...payload });
+});
+
+exports.createUser = functions.auth.user().onCreate(user => {
+  const { userId } = user;
+
+  const usersCollectionRef = admin.firestore().collection('usuários');
+
+  return usersCollectionRef.doc(userId).set({ ...user });
 });
