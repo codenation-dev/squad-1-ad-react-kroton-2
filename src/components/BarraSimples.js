@@ -15,12 +15,11 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2, 3),
     width: "300px"
-  }
+  },
 }));
 
 export default function BarraSimples(props) {
   const classes = useStyles();
-
   const [checked, setChecked] = React.useState(false);
 
   const handleChangeCheck = event => {
@@ -30,7 +29,8 @@ export default function BarraSimples(props) {
   return (
     <div>
       <CssBaseline />
-      <AppBar position="relative" color="default">
+
+      <AppBar position="relative" color="default" elevation={1}>
         <Toolbar>
           <div
             style={{ display: "flex", flexDirection: "column", width: "100%" }}
@@ -40,7 +40,7 @@ export default function BarraSimples(props) {
                 className={classes.submit}
                 variant="contained"
                 color="primary"
-                //onClick={}
+              //onClick={}
               >
                 Arquivar
               </Button>
@@ -48,7 +48,7 @@ export default function BarraSimples(props) {
                 className={classes.submit}
                 variant="contained"
                 color="primary"
-                //onClick={}
+              //onClick={}
               >
                 Apagar
               </Button>
