@@ -20,14 +20,46 @@ function AlertDescription(props) {
   return (
     <div>
       <Container>
-        <p>Barra do Token</p>
-        <Button className={classes.return} variant="contained" color="primary">
-          VOLTAR
-        </Button>
-
-        <Typography component="h1" variant="h5">
-          Recuperar Senha
-        </Typography>
+        <header>
+          <p>Barra do Token</p>
+        </header>
+        <nav>
+          <Button
+            className={classes.return}
+            variant="contained"
+            color="primary"
+          >
+            VOLTAR
+          </Button>
+        </nav>
+        <section>
+          <Typography variant="h3">
+            Erro no 127.0.0.1 em 24/05/2019 10:15
+          </Typography>
+        </section>
+        <section>
+          <section>
+            <div>
+              <Typography variant="h5">Título</Typography>
+              <p>acceleration.Service.AddCandidate: forbidden</p>
+            </div>
+            <div>
+              <Typography variant="h5">Detalhes</Typography>
+              <p>Detail 1</p>
+              <p>Detail 2</p>
+            </div>
+          </section>
+          <section>
+            <div>
+              <Typography variant="h5">Eventos</Typography>
+              <p>1000</p>
+            </div>
+            <div>
+              <Typography variant="h5">Coletado por</Typography>
+              <p>Token do usuário X</p>
+            </div>
+          </section>
+        </section>
       </Container>
     </div>
   );
