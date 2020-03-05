@@ -1,20 +1,40 @@
 import React from 'react';
-import { Container, Button, makeStyles, Typography } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import Painel from './Painel';
+import {
+  Container,
+  Button,
+  makeStyles,
+  Typography,
+  Chip
+} from '@material-ui/core';
+
+const getAlertById = async id => {
+  const response = await fetch(``);
+
+  // tratamento do retorno
+  // se não existir > 404
+  // se exist > response.json()
+};
 
 const useStyles = makeStyles(theme => ({
   return: {
     margin: theme.spacing(3, 0, 3, 0),
     width: '300px'
+  },
+  container: {
+    margin: theme.spacing(3, 0, 3, 0)
   }
 }));
 
 function AlertDescription(props) {
   const classes = useStyles();
+  const [chipColor, setChipColor] = React.useState('secondary');
+  const [alert, setAlert] = React.useState({});
 
   React.useEffect(() => {
     const alertId = props.match.params.id;
+    /*
+    getAlertById(alertId).then(r => setAlert(r))
+    */
   }, []);
 
   return (
@@ -37,7 +57,7 @@ function AlertDescription(props) {
             Erro no 127.0.0.1 em 24/05/2019 10:15
           </Typography>
         </section>
-        <section>
+        <section className={classes.container}>
           <section>
             <div>
               <Typography variant="h5">Título</Typography>
@@ -50,6 +70,9 @@ function AlertDescription(props) {
             </div>
           </section>
           <section>
+            <div>
+              <Chip color={chipColor} size="small" label="ERRO" />
+            </div>
             <div>
               <Typography variant="h5">Eventos</Typography>
               <p>1000</p>
