@@ -4,9 +4,9 @@ import {
   Button,
   makeStyles,
   Typography,
-  Chip,
   Box
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 
 const getAlertById = async id => {
   const response = await fetch(``);
@@ -23,12 +23,18 @@ const useStyles = makeStyles(theme => ({
   },
   container: {
     marginTop: 20
+  },
+  event: {
+    marginTop: 20
   }
 }));
 
 function AlertDescription(props) {
   const classes = useStyles();
-  const [chipColor, setChipColor] = React.useState('secondary');
+  const [alertSeverity, setAlertSeverity] = React.useState({
+    severity: 'warning',
+    description: 'ALERTA'
+  });
   const [alert, setAlert] = React.useState({});
 
   React.useEffect(() => {
@@ -77,9 +83,11 @@ function AlertDescription(props) {
           </section>
           <section>
             <div>
-              <Chip color={chipColor} size="small" label="ERRO" />
+              <Alert severity={alertSeverity.severity}>
+                {alertSeverity.description}
+              </Alert>
             </div>
-            <div>
+            <div className={classes.event}>
               <Typography variant="h5">Eventos</Typography>
               <p>1000</p>
             </div>
