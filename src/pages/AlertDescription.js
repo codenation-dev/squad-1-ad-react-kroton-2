@@ -4,7 +4,8 @@ import {
   Button,
   makeStyles,
   Typography,
-  Chip
+  Chip,
+  Box
 } from '@material-ui/core';
 
 const getAlertById = async id => {
@@ -21,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     width: '300px'
   },
   container: {
-    margin: theme.spacing(3, 0, 3, 0)
+    marginTop: 20
   }
 }));
 
@@ -57,7 +58,12 @@ function AlertDescription(props) {
             Erro no 127.0.0.1 em 24/05/2019 10:15
           </Typography>
         </section>
-        <section className={classes.container}>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="flex-start"
+          className={classes.container}
+        >
           <section>
             <div>
               <Typography variant="h5">Título</Typography>
@@ -82,7 +88,7 @@ function AlertDescription(props) {
               <p>Token do usuário X</p>
             </div>
           </section>
-        </section>
+        </Box>
       </Container>
     </div>
   );
