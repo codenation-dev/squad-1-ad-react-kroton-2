@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import * as firebase from 'firebase/app';
 
 function Painel() {
@@ -14,6 +15,8 @@ function Painel() {
       >
         Sair
       </Button>
+      {/* apenas para teste */}
+      <Link to="/alert/1">Teste</Link>
     </div>
   );
 }
