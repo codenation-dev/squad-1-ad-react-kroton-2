@@ -4,7 +4,8 @@ import {
   Button,
   makeStyles,
   Typography,
-  Box
+  Box,
+  CircularProgress
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import Moment from 'react-moment';
@@ -44,8 +45,8 @@ const useStyles = makeStyles(theme => ({
 function AlertDescription(props) {
   const classes = useStyles();
   const [alertSeverity, setAlertSeverity] = React.useState({
-    severity: 'warning',
-    description: 'ALERTA'
+    severity: 'error',
+    description: 'ERRO'
   });
   const [alert, setAlert] = React.useState({});
   const [showAlert, setShowAlert] = React.useState(false);
@@ -54,7 +55,9 @@ function AlertDescription(props) {
     const alertId = props.match.params.id;
     getAlertById(alertId).then(r => {
       setAlert(r);
-      setShowAlert(true);
+      setTimeout(() => {
+        setShowAlert(true);
+      }, 500);
     });
   }, []);
 
@@ -73,6 +76,7 @@ function AlertDescription(props) {
             VOLTAR
           </Button>
         </nav>
+        {!showAlert && <CircularProgress />}
         {showAlert && (
           <div>
             <Typography variant="h3">
