@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
   btnVoltar: {
     margin: theme.spacing(3, 0, 3, 0),
     backgroundColor: '#1976d2',
-    width: 300,
+    width: 200,
     borderRadius: 5,
     '&:hover': { backgroundColor: '#115293', transitionDuration: '0.5s' }
   },
