@@ -50,7 +50,9 @@ const useStyles = makeStyles(theme => ({
   label: {
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 25
+    fontSize: 25,
+    '&:hover': { textDecoration: 'none', color: 'white' },
+    '&:active': { textDecoration: 'none', color: 'white' }
   }
 }));
 
