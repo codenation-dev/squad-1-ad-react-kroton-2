@@ -10,8 +10,10 @@ import {
   BottomNavigationAction
 } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
-import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+import AlertaEvent from '../components/Alert/AlertaEvent';
+import AlertaBody from '../components/Alert/AlertaBody';
+import AlertaHeader from '../components/Alert/AlertaHeader';
 
 const getAlertById = async id => {
   const response = await fetch(``);
@@ -97,41 +99,20 @@ function AlertDescription(props) {
         {!showAlert && <CircularProgress />}
         {showAlert && (
           <div>
-            <Typography variant="h3">
-              Erro no {alert.origem} em{' '}
-              <Moment format="DD/MM/YYYY HH:mm">{alert.criadoEm}</Moment>{' '}
-            </Typography>
+            <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
             <Box
               display="flex"
               justifyContent="space-between"
               alignItems="flex-start"
               className={classes.container}
             >
-              <section>
-                <div>
-                  <Typography variant="h5">Título</Typography>
-                  <p>{alert.titulo}</p>
-                </div>
-                <div>
-                  <Typography variant="h5">Detalhes</Typography>
-                  <p>{alert.detalhes}</p>
-                </div>
-              </section>
-              <section>
-                <div>
-                  <Alert severity={alertSeverity.severity}>
-                    {alertSeverity.description}
-                  </Alert>
-                </div>
-                <div className={classes.event}>
-                  <Typography variant="h5">Eventos</Typography>
-                  <p>{alert.eventos}</p>
-                </div>
-                <div>
-                  <Typography variant="h5">Coletado por</Typography>
-                  <p>{alert.coletadoPor}</p>
-                </div>
-              </section>
+              <AlertaBody title={alert.titulo} details={alert.detalhes} />
+              <AlertaEvent
+                severity={alertSeverity.severity}
+                description={alertSeverity.description}
+                eventos={alert.eventos}
+                coletadoPor={alert.coletadoPor}
+              />
             </Box>
           </div>
         )}
