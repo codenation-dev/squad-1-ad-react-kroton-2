@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  Paper,
   Container,
   makeStyles,
   Box,
@@ -10,6 +11,7 @@ import AlertaBody from '../components/Alert/AlertaBody';
 import AlertaHeader from '../components/Alert/AlertaHeader';
 import AlertaNav from '../components/Alert/AlertaNav';
 import BarraUm from '../components/BarraUm';
+import * as firebase from 'firebase/app';
 
 const getAlertById = async id => {
   const response = await fetch(``);
@@ -47,6 +49,10 @@ function AlertDescription(props) {
   const [showAlert, setShowAlert] = React.useState(false);
 
   React.useEffect(() => {
+    const { uid } = firebase.auth().currentUser;
+
+    console.log(uid);
+
     const alertId = props.match.params.id;
     getAlertById(alertId).then(r => {
       setAlert(r);
@@ -59,29 +65,31 @@ function AlertDescription(props) {
   return (
     <div>
       <BarraUm texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs"></BarraUm>
-      <Container>
-        <AlertaNav />
-        {!showAlert && <CircularProgress />}
-        {showAlert && (
-          <div>
-            <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              alignItems="flex-start"
-              className={classes.container}
-            >
-              <AlertaBody title={alert.titulo} details={alert.detalhes} />
-              <AlertaEvent
-                severity={alertSeverity.severity}
-                description={alertSeverity.description}
-                eventos={alert.eventos}
-                coletadoPor={alert.coletadoPor}
-              />
-            </Box>
-          </div>
-        )}
-      </Container>
+      <Paper>
+        <Container>
+          <AlertaNav />
+          {!showAlert && <CircularProgress />}
+          {showAlert && (
+            <div>
+              <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="flex-start"
+                className={classes.container}
+              >
+                <AlertaBody title={alert.titulo} details={alert.detalhes} />
+                <AlertaEvent
+                  severity={alertSeverity.severity}
+                  description={alertSeverity.description}
+                  eventos={alert.eventos}
+                  coletadoPor={alert.coletadoPor}
+                />
+              </Box>
+            </div>
+          )}
+        </Container>
+      </Paper>
     </div>
   );
 }

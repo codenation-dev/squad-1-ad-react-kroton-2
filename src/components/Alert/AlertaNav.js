@@ -33,7 +33,7 @@ export default function AlertaHeader({ origem, criadoem }) {
           <BottomNavigation className={classes.btnVoltar}>
             <BottomNavigationAction
               label="VOLTAR"
-              showLabel="true"
+              showLabel={true}
               component={Link}
               to="/"
               className={classes.label}
