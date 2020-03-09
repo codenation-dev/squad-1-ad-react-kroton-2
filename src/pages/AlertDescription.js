@@ -2,18 +2,13 @@ import React from 'react';
 import {
   Container,
   makeStyles,
-  Typography,
   Box,
-  CircularProgress,
-  ButtonBase,
-  BottomNavigation,
-  BottomNavigationAction
+  CircularProgress
 } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { Link } from 'react-router-dom';
 import AlertaEvent from '../components/Alert/AlertaEvent';
 import AlertaBody from '../components/Alert/AlertaBody';
 import AlertaHeader from '../components/Alert/AlertaHeader';
+import AlertaNav from '../components/Alert/AlertaNav';
 
 const getAlertById = async id => {
   const response = await fetch(``);
@@ -38,23 +33,6 @@ const getAlertById = async id => {
 const useStyles = makeStyles(theme => ({
   container: {
     marginTop: 20
-  },
-  event: {
-    marginTop: 20
-  },
-  btnVoltar: {
-    margin: theme.spacing(3, 0, 3, 0),
-    backgroundColor: '#1976d2',
-    width: 200,
-    borderRadius: 5,
-    '&:hover': { backgroundColor: '#115293', transitionDuration: '0.5s' }
-  },
-  label: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 25,
-    '&:hover': { textDecoration: 'none', color: 'white' },
-    '&:active': { textDecoration: 'none', color: 'white' }
   }
 }));
 
@@ -80,22 +58,7 @@ function AlertDescription(props) {
   return (
     <div>
       <Container>
-        <header>
-          <p>Barra do Token</p>
-        </header>
-        <nav>
-          <ButtonBase>
-            <BottomNavigation className={classes.btnVoltar}>
-              <BottomNavigationAction
-                label="VOLTAR"
-                showLabel="true"
-                component={Link}
-                to="/"
-                className={classes.label}
-              />
-            </BottomNavigation>
-          </ButtonBase>
-        </nav>
+        <AlertaNav />
         {!showAlert && <CircularProgress />}
         {showAlert && (
           <div>
