@@ -9,6 +9,7 @@ import AlertaEvent from '../components/Alert/AlertaEvent';
 import AlertaBody from '../components/Alert/AlertaBody';
 import AlertaHeader from '../components/Alert/AlertaHeader';
 import AlertaNav from '../components/Alert/AlertaNav';
+import BarraUm from '../components/BarraUm';
 
 const getAlertById = async id => {
   const response = await fetch(``);
@@ -57,6 +58,7 @@ function AlertDescription(props) {
 
   return (
     <div>
+      <BarraUm texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs"></BarraUm>
       <Container>
         <AlertaNav />
         {!showAlert && <CircularProgress />}

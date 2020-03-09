@@ -28,9 +28,6 @@ export default function AlertaHeader({ origem, criadoem }) {
   const classes = useStyles();
   return (
     <div>
-      <header>
-        <p>Barra do Token</p>
-      </header>
       <nav>
         <ButtonBase>
           <BottomNavigation className={classes.btnVoltar}>
