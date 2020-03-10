@@ -96,7 +96,7 @@ function RecuperacaoDeSenha() {
         <div className={classes.center}>
           <TrackErrLogo />
           <Typography className={classes.title} component="h1" variant="h5">
-            Solicitar recuperação de senha
+            Recuperação de senha
           </Typography>
         </div>
         <TextField
