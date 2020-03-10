@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app';
+
+import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import imageResetPassword from '../images/resetPassword.svg';
 import errors from '../errorsPtBR.json';
 
@@ -24,6 +26,11 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       width: 345
     }
+  },
+  title: {
+    textAlign: 'center',
+    marginTop: '40px',
+    marginBottom: '20px'
   },
   center: {
     display: 'flex',
@@ -87,13 +94,9 @@ function RecuperacaoDeSenha() {
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={2}>
         <div className={classes.center}>
-          <img
-            className={classes.imgSize}
-            src={imageResetPassword}
-            alt="Reset Password"
-          ></img>
-          <Typography component="h1" variant="h5">
-            Recuperar Senha
+          <TrackErrLogo />
+          <Typography className={classes.title} component="h1" variant="h5">
+            Solicitar recuperação de senha
           </Typography>
         </div>
         <TextField
