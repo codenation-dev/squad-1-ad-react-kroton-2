@@ -3,9 +3,15 @@ import { Typography } from '@material-ui/core';
 import Moment from 'react-moment';
 
 export default function AlertaHeader({ origem, criadoem }) {
+  console.log({ criadoem });
   return (
-    <Typography variant="h3">
-      Erro no {origem} em <Moment format="DD/MM/YYYY HH:mm">{criadoem}</Moment>{' '}
-    </Typography>
+    <div>
+      <Typography variant="h3">
+        Erro no {origem} em{' '}
+        <Moment unix format="DD/MM/YYYY HH:mm">
+          {criadoem.seconds}
+        </Moment>{' '}
+      </Typography>
+    </div>
   );
 }
