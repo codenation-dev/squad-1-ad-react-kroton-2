@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import RecuperacaoDeSenha from './pages/RecuperacaoDeSenha';
 import Cadastro from './pages/Cadastro';
 import Painel from './pages/Painel';
+import AlertDescription from './pages/AlertDescription';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
@@ -66,6 +67,12 @@ function Routes() {
         path="/"
         isAuthenticated={isAuthenticated}
         component={Painel}
+      />
+      <PrivateRoute
+        exact
+        path="/alert/:id"
+        isAuthenticated={isAuthenticated}
+        component={AlertDescription}
       />
     </Switch>
   );

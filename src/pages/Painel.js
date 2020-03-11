@@ -4,6 +4,8 @@ import BarraUm from '../components/BarraUm';
 import BarraSimples from '../components/BarraSimples';
 import Eventos from '../components/Eventos';
 
+import { Link } from 'react-router-dom';
+
 const eventos = [
   {
     id: 1,
@@ -41,6 +43,8 @@ export default function ErroLista() {
       {eventos.map((e, index) => {
         return <Eventos key={index} evento={e}></Eventos>;
       })}
+      {/* apenas para teste */}
+      <Link to="/alert/example">Pág Alerta</Link>
     </div>
   );
 }
