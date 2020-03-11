@@ -44,7 +44,7 @@ export default function ErroLista() {
         return <Eventos key={index} evento={e}></Eventos>;
       })}
       {/* apenas para teste */}
-      <Link to="/alert/22bPWWkrVE62tLIrLHsH">Pág Alerta</Link>
+      <Link to="/alert/example">Pág Alerta</Link>
     </div>
   );
 }
