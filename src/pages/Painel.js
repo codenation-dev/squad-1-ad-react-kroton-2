@@ -55,7 +55,6 @@ export default function ErroLista() {
       .then((querySnapshot) => {
         setAlertas(querySnapshot.docs)
         const data = querySnapshot.docs.map(doc => doc.data());
-        console.log(data);
       });
   }, [])
 
