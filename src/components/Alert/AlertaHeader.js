@@ -3,7 +3,6 @@ import { Typography } from '@material-ui/core';
 import Moment from 'react-moment';
 
 export default function AlertaHeader({ origem, criadoem }) {
-  console.log({ criadoem });
   return (
     <div>
       <Typography variant="h3">
