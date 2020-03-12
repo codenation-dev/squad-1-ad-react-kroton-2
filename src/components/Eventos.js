@@ -1,17 +1,31 @@
-import React from "react";
-import Checkbox from "@material-ui/core/Checkbox";
-import Box from "@material-ui/core/Box";
+import React from 'react';
+import Checkbox from '@material-ui/core/Checkbox';
+import Box from '@material-ui/core/Box';
 
 function timeConverter(UNIX_timestamp) {
   var a = new Date(UNIX_timestamp * 1000);
-  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
   var year = a.getFullYear();
   var month = months[a.getMonth()];
   var date = a.getDate();
   var hour = a.getHours();
   var min = a.getMinutes();
   var sec = a.getSeconds();
-  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+  var time =
+    date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
   return time;
 }
 
@@ -20,15 +34,21 @@ export default function Eventos(evento2, index) {
 
   const handleChangeCheck = event => {
     setChecked(event.target.checked);
+
+    if (event.target.checked) {
+      evento2.setCheckados(x => x.concat(evento2.id));
+    } else {
+      evento2.setCheckados(evento2.checkados.filter(x => x !== evento2.id));
+    }
   };
 
   return (
     <div
       style={{
-        display: "flex",
-        flexDirection: "row",
-        width: "100%",
-        marginTop: "15px"
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100%',
+        marginTop: '15px'
       }}
     >
       <Box
@@ -44,7 +64,7 @@ export default function Eventos(evento2, index) {
             onChange={handleChangeCheck}
             value="primary"
             color="primary"
-            inputProps={{ "aria-label": "primary checkbox" }}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
         </Box>
 
@@ -60,6 +80,7 @@ export default function Eventos(evento2, index) {
           </Box>
 
           <Box display="flex" flexDirection="column" alignItems="center">
+            <Box>{evento2.evento.arquivado?'True':'false'}</Box>
             <Box>{evento2.evento.descricao}</Box>
             <Box>{evento2.evento.origem}</Box>
             <Box>{timeConverter(evento2.evento.criadoEm.seconds)}</Box>

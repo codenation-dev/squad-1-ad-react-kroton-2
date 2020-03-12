@@ -33,9 +33,10 @@ const eventos = [
   }
 ];
 
-
 export default function ErroLista() {
-  const [alertas, setAlertas] = useState([])
+  const [alertas, setAlertas] = useState([]);
+  const [checkados, setCheckados] = useState([]);
+  const arrayapagar = [];
 
   // useEffect(() => {
   //   db.collection("usuários")
@@ -46,28 +47,85 @@ export default function ErroLista() {
   //     });
   // }, [])
 
+  const handleArquivar = () => {
+    checkados.map(item => setArquivado(firebase.auth().currentUser.uid, item));
+  };
+
+  const handleDeletar = () => {
+    checkados.map(item =>
+      deletaRegistro(firebase.auth().currentUser.uid, item)
+    );
+  };
+
+  const deletaRegistro = async (uid, idAlerta) => {
+    try {
+      //console.log(uid);
+      await db
+        .collection('usuários')
+        .doc(uid)
+        .collection('alertas')
+        .doc(idAlerta)
+        .delete();
+      listaAlertas();
+      setCheckados([]);
+      // console.log('ok');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const setArquivado = async (uid, idAlerta) => {
+    try {
+      console.log(uid);
+      await db
+        .collection('usuários')
+        .doc(uid)
+        .collection('alertas')
+        .doc(idAlerta)
+        .update({ arquivado: true });
+      listaAlertas();
+      setCheckados([]);
+      console.log('ok');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const listaAlertas = () => {
+    console.log('00');
+    db.collection('usuários')
+      .doc(firebase.auth().currentUser.uid)
+      .collection('alertas')
+      .get()
+      .then(querySnapshot => {
+        setAlertas(querySnapshot.docs);
+        const data = querySnapshot.docs.map(doc => doc.data());
+        //console.log(data);
+      });
+  };
 
   useEffect(() => {
-    db.collection("usuários")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("alertas")
-      .get()
-      .then((querySnapshot) => {
-        setAlertas(querySnapshot.docs)
-        const data = querySnapshot.docs.map(doc => doc.data());
-        console.log(data);
-      });
-  }, [])
+    listaAlertas();
+  }, []);
 
   return (
     <div>
       {/* <BarraUm texto={`Bem vindo Usuário. Seu token é: ${firebase.auth().currentUser}`}></BarraUm> */}
-      <BarraUm texto={`Bem vindo ${firebase.auth().currentUser.email}`}></BarraUm>
+      <BarraUm
+        texto={`Bem vindo ${firebase.auth().currentUser.email}`}
+      ></BarraUm>
       <BarraDois></BarraDois>
-      <BarraSimples></BarraSimples>
-
+      <BarraSimples handleArquivar={handleArquivar} handleDeletar={handleDeletar} ></BarraSimples>      
       {alertas.map((e, index) => {
-        return <Eventos key={index} evento={e.data()}></Eventos>;
+        return (
+          <Eventos
+            setCheckados={setCheckados}
+            checkados={checkados}
+            key={index}
+            id={e.id}
+            evento={e.data()}
+          ></Eventos>
+        );
       })}
     </div>
   );

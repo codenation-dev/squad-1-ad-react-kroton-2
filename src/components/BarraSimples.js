@@ -1,12 +1,12 @@
-import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Checkbox from "@material-ui/core/Checkbox";
-import Box from "@material-ui/core/Box";
+import React from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
+import Checkbox from '@material-ui/core/Checkbox';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -14,8 +14,8 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2, 3),
-    width: "300px"
-  },
+    width: '300px'
+  }
 }));
 
 export default function BarraSimples(props) {
@@ -33,14 +33,15 @@ export default function BarraSimples(props) {
       <AppBar position="relative" color="default" elevation={1}>
         <Toolbar>
           <div
-            style={{ display: "flex", flexDirection: "column", width: "100%" }}
+            style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
           >
-            <div style={{ marginBottom: "20px" }}>
+            <div style={{ marginBottom: '20px' }}>
               <Button
                 className={classes.submit}
                 variant="contained"
                 color="primary"
-              //onClick={}
+                onClick={props.handleArquivar}
+                //onClick={}
               >
                 Arquivar
               </Button>
@@ -48,14 +49,14 @@ export default function BarraSimples(props) {
                 className={classes.submit}
                 variant="contained"
                 color="primary"
-              //onClick={}
+                onClick={props.handleDeletar}
               >
                 Apagar
               </Button>
             </div>
 
             <div
-              style={{ display: "flex", flexDirection: "row", width: "100%" }}
+              style={{ display: 'flex', flexDirection: 'row', width: '100%' }}
             >
               <div>
                 <Checkbox
@@ -63,15 +64,15 @@ export default function BarraSimples(props) {
                   onChange={handleChangeCheck}
                   value="primary"
                   color="primary"
-                  inputProps={{ "aria-label": "primary checkbox" }}
+                  inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
               </div>
               <div
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
+                  display: 'flex',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
                   flex: 1
                 }}
               >

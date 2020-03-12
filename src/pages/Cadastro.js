@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Alert from '@material-ui/lab/Alert';
 import * as firebase from 'firebase/app';
 import errors from '../errorsPtBR.json';
+import { db } from '../firebase/config';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,6 +45,7 @@ export default function Cadastro({ history }) {
   const [password, setPassword] = useState('');
   const [alerta, setAlerta] = useState(false);
   const [erro, setErro] = useState('');
+
 
   async function createAccount(event) {
     event.preventDefault();
@@ -114,6 +116,7 @@ export default function Cadastro({ history }) {
           </div>
         </Box>
       </form>
+      
     </Container>
   );
 }
