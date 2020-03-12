@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase/app';
+
+import SplashScreen from './components/SplashScreen';
 import Login from './pages/Login';
 import RecuperacaoDeSenha from './pages/RecuperacaoDeSenha';
 import Cadastro from './pages/Cadastro';
 import Painel from './pages/Painel';
-import SplashScreen from './components/SplashScreen';
+import AlertDescription from './pages/AlertDescription';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
@@ -69,6 +71,12 @@ function Routes() {
         path="/"
         isAuthenticated={isAuthenticated}
         component={Painel}
+      />
+      <PrivateRoute
+        exact
+        path="/alert/:id"
+        isAuthenticated={isAuthenticated}
+        component={AlertDescription}
       />
     </Switch>
   );

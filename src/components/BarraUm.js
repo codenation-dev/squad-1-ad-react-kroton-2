@@ -33,21 +33,13 @@ export default function BarraUm(props) {
   };
 
   const handleClose = () => {
-    firebase.auth().signOut()
+    firebase.auth().signOut();
   };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton>
           <Typography variant="h6" className={classes.title}>
             {props.texto}
           </Typography>
