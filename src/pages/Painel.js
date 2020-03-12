@@ -33,35 +33,25 @@ const eventos = [
   }
 ];
 
-
 export default function ErroLista() {
-  const [alertas, setAlertas] = useState([])
-
-  // useEffect(() => {
-  //   db.collection("usuários")
-  //     .doc(firebase.auth().currentUser.uid)
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       console.log(querySnapshot)
-  //     });
-  // }, [])
-
+  const [alertas, setAlertas] = useState([]);
 
   useEffect(() => {
-    db.collection("usuários")
+    db.collection('usuários')
       .doc(firebase.auth().currentUser.uid)
-      .collection("alertas")
+      .collection('alertas')
       .get()
-      .then((querySnapshot) => {
-        setAlertas(querySnapshot.docs)
-        const data = querySnapshot.docs.map(doc => doc.data());
+      .then(querySnapshot => {
+        setAlertas(querySnapshot.docs);
       });
-  }, [])
+  }, []);
 
   return (
     <div>
       {/* <BarraUm texto={`Bem vindo Usuário. Seu token é: ${firebase.auth().currentUser}`}></BarraUm> */}
-      <BarraUm texto={`Bem vindo ${firebase.auth().currentUser.email}`}></BarraUm>
+      <BarraUm
+        texto={`Bem vindo ${firebase.auth().currentUser.email}`}
+      ></BarraUm>
       <BarraDois></BarraDois>
       <BarraSimples></BarraSimples>
 
