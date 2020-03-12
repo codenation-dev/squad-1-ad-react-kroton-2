@@ -2,6 +2,19 @@ import React from "react";
 import Checkbox from "@material-ui/core/Checkbox";
 import Box from "@material-ui/core/Box";
 
+function timeConverter(UNIX_timestamp) {
+  var a = new Date(UNIX_timestamp * 1000);
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+  return time;
+}
+
 export default function Eventos(evento2, index) {
   const [checked, setChecked] = React.useState(false);
 
@@ -18,9 +31,6 @@ export default function Eventos(evento2, index) {
         marginTop: "15px"
       }}
     >
-      {console.log(evento2.evento)}
-      {console.log(evento2.evento.level)}
-
       <Box
         display="flex"
         flexDirection="row"
@@ -52,10 +62,10 @@ export default function Eventos(evento2, index) {
           <Box display="flex" flexDirection="column" alignItems="center">
             <Box>{evento2.evento.descricao}</Box>
             <Box>{evento2.evento.origem}</Box>
-            <Box>{evento2.evento.dataHora}</Box>
+            <Box>{timeConverter(evento2.evento.criadoEm.seconds)}</Box>
           </Box>
 
-          <Box mr={10}>{evento2.evento.codigo}</Box>
+          <Box mr={10}>{evento2.evento.eventos}</Box>
         </Box>
       </Box>
     </div>
