@@ -8,33 +8,6 @@ import { db } from '../firebase/config';
 
 import { Link } from 'react-router-dom';
 
-const eventos = [
-  {
-    id: 1,
-    level: 'error',
-    descricao: 'descricao do erro',
-    origem: 'origem do erro',
-    dataHora: '01/01/2020 11:10:55',
-    codigo: 1000
-  },
-  {
-    id: 2,
-    level: 'warning',
-    descricao: 'só um aviso',
-    origem: 'react',
-    dataHora: '01/01/2020 11:10:55',
-    codigo: 200
-  },
-  {
-    id: 3,
-    level: 'debug',
-    descricao: 'not found',
-    origem: 'classe 2',
-    dataHora: '01/01/2020 11:10:55',
-    codigo: 30
-  }
-];
-
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
 
@@ -50,7 +23,6 @@ export default function ErroLista() {
 
   return (
     <div>
-      {/* <BarraUm texto={`Bem vindo Usuário. Seu token é: ${firebase.auth().currentUser}`}></BarraUm> */}
       <BarraUm
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUm>
