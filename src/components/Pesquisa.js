@@ -9,10 +9,10 @@ const useStyles = makeStyles(theme => ({
     root: {
         marginTop: theme.spacing(1),
         padding: '2px 4px',
-        display: 'flex',
+        display: 'flex',        
         alignItems: 'center',
         width: 400,
-        height: 50,
+        height: 58,
     },
     input: {
         marginLeft: theme.spacing(1),
