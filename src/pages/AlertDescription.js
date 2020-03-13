@@ -6,12 +6,13 @@ import {
   Box,
   CircularProgress
 } from '@material-ui/core';
+import * as firebase from 'firebase/app';
+
 import AlertaEvent from '../components/Alert/AlertaEvent';
 import AlertaBody from '../components/Alert/AlertaBody';
 import AlertaHeader from '../components/Alert/AlertaHeader';
 import AlertaNav from '../components/Alert/AlertaNav';
 import BarraUsuario from '../components/BarraUsuario';
-import * as firebase from 'firebase/app';
 
 const useStyles = makeStyles(theme => ({
   container: {

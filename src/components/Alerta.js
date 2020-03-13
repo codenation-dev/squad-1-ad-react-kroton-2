@@ -1,44 +1,18 @@
 import React from 'react';
 import Checkbox from '@material-ui/core/Checkbox';
 import Box from '@material-ui/core/Box';
+import Moment from 'react-moment';
 
-function timeConverter(UNIX_timestamp) {
-  var a = new Date(UNIX_timestamp * 1000);
-  var months = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-  var year = a.getFullYear();
-  var month = months[a.getMonth()];
-  var date = a.getDate();
-  var hour = a.getHours();
-  var min = a.getMinutes();
-  var sec = a.getSeconds();
-  var time =
-    date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-  return time;
-}
-
-export default function Eventos(evento2, index) {
+export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   const [checked, setChecked] = React.useState(false);
 
   const handleChangeCheck = event => {
     setChecked(event.target.checked);
 
     if (event.target.checked) {
-      evento2.setCheckados(x => x.concat(evento2.id));
+      setCheckados(x => x.concat(id));
     } else {
-      evento2.setCheckados(evento2.checkados.filter(x => x !== evento2.id));
+      setCheckados(checkados.filter(x => x !== id));
     }
   };
 
@@ -59,11 +33,7 @@ export default function Eventos(evento2, index) {
   };
 
   return (
-    <div
-      style={
-        evento2.evento.arquivado ? estilos.estilodivCinza : estilos.estiloDiv
-      }
-    >
+    <div style={alerta.arquivado ? estilos.estilodivCinza : estilos.estiloDiv}>
       <Box
         display="flex"
         flexDirection="row"
@@ -73,7 +43,7 @@ export default function Eventos(evento2, index) {
       >
         <Box ml={3}>
           <Checkbox
-            disabled={evento2.evento.arquivado}
+            disabled={alerta.arquivado}
             checked={checked}
             onChange={handleChangeCheck}
             value="primary"
@@ -90,16 +60,20 @@ export default function Eventos(evento2, index) {
           alignItems="center"
         >
           <Box ml={5} bgcolor="text.secondary">
-            {evento2.evento.level}
+            {alerta.level}
           </Box>
 
           <Box display="flex" flexDirection="column" alignItems="center">
-            <Box>{evento2.evento.descricao}</Box>
-            <Box>{evento2.evento.origem}</Box>
-            <Box>{timeConverter(evento2.evento.criadoEm.seconds)}</Box>
+            <Box>{alerta.descricao}</Box>
+            <Box>{alerta.origem}</Box>
+            <Box>
+              <Moment unix format="DD/MM/YYYY HH:mm">
+                {alerta.criadoEm.seconds}
+              </Moment>
+            </Box>
           </Box>
 
-          <Box mr={10}>{evento2.evento.eventos}</Box>
+          <Box mr={10}>{alerta.eventos}</Box>
         </Box>
       </Box>
     </div>

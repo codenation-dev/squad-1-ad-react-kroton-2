@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import BarraPesquisa from '../components/BarraPesquisa';
 import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
-import Eventos from '../components/Eventos';
+import Alerta from '../components/Alerta';
 import { db } from '../firebase/config';
 
 export default function ErroLista() {
@@ -74,15 +74,15 @@ export default function ErroLista() {
         handleArquivar={handleArquivar}
         handleDeletar={handleDeletar}
       ></BarraCabecalho>
-      {alertas.map((e, index) => {
+      {alertas.map((alerta, index) => {
         return (
-          <Eventos
+          <Alerta
             setCheckados={setCheckados}
             checkados={checkados}
             key={index}
-            id={e.id}
-            evento={e.data()}
-          ></Eventos>
+            id={alerta.id}
+            alerta={alerta.data()}
+          ></Alerta>
         );
       })}
       {/* apenas para teste */}
