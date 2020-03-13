@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function ErroLista() {
+export default function BarraPesquisa() {
     const classes = useStyles();
 
     const [tipo, setTipo] = React.useState('');

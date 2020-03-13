@@ -1,14 +1,7 @@
 import React from 'react';
-import { Typography, makeStyles } from '@material-ui/core';
-
-const useStyles = makeStyles(theme => ({
-  event: {
-    marginTop: 20
-  }
-}));
+import { Typography } from '@material-ui/core';
 
 export default function AlertaBody({ title, details }) {
-  const classes = useStyles();
   return (
     <section>
       <div>

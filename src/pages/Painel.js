@@ -1,17 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import BarraDois from '../components/BarraDois';
-import BarraUm from '../components/BarraUm';
-import BarraSimples from '../components/BarraSimples';
-import Eventos from '../components/Eventos';
 import * as firebase from 'firebase/app';
-import { db } from '../firebase/config';
 
-import { Link } from 'react-router-dom';
+import BarraPesquisa from '../components/BarraPesquisa';
+import BarraUsuario from '../components/BarraUsuario';
+import BarraCabecalho from '../components/BarraCabecalho';
+import Alerta from '../components/Alerta';
+import { db } from '../firebase/config';
+import {
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody,
+  Container
+} from '@material-ui/core';
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
+  const [checkados, setCheckados] = useState([]);
 
-  useEffect(() => {
+  const handleArquivar = () => {
+    checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
+  };
+
+  const handleDeletar = () => {
+    checkados.map(item => deletar(firebase.auth().currentUser.uid, item));
+  };
+
+  const deletar = async (uid, idAlerta) => {
+    try {
+      await db
+        .collection('usuários')
+        .doc(uid)
+        .collection('alertas')
+        .doc(idAlerta)
+        .delete();
+      listaAlertas();
+      setCheckados([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const arquivar = async (uid, idAlerta) => {
+    try {
+      await db
+        .collection('usuários')
+        .doc(uid)
+        .collection('alertas')
+        .doc(idAlerta)
+        .update({ arquivado: true });
+      listaAlertas();
+      setCheckados([]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const listaAlertas = () => {
     db.collection('usuários')
       .doc(firebase.auth().currentUser.uid)
       .collection('alertas')
@@ -19,21 +67,49 @@ export default function ErroLista() {
       .then(querySnapshot => {
         setAlertas(querySnapshot.docs);
       });
+  };
+
+  useEffect(() => {
+    listaAlertas();
   }, []);
 
   return (
     <div>
-      <BarraUm
+      <BarraUsuario
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
-      ></BarraUm>
-      <BarraDois></BarraDois>
-      <BarraSimples></BarraSimples>
-
-      {alertas.map((e, index) => {
-        return <Eventos key={index} evento={e.data()}></Eventos>;
-      })}
-      {/* apenas para teste */}
-      <Link to="/alert/example">Pág Alerta</Link>
+      ></BarraUsuario>
+      <BarraPesquisa></BarraPesquisa>
+      <BarraCabecalho
+        handleArquivar={handleArquivar}
+        handleDeletar={handleDeletar}
+      ></BarraCabecalho>
+      <Container>
+        <TableContainer component={Paper} style={{ marginTop: '10px' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell align="center">Level</TableCell>
+                <TableCell align="center">Log</TableCell>
+                <TableCell align="center">Eventos</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {alertas.map((alerta, index) => {
+                return (
+                  <Alerta
+                    setCheckados={setCheckados}
+                    checkados={checkados}
+                    key={index}
+                    id={alerta.id}
+                    alerta={alerta.data()}
+                  ></Alerta>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
     </div>
   );
 }

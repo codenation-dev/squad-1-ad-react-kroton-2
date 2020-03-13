@@ -25,9 +25,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function BarraUm(props) {
+export default function BarraUsuario(props) {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
 
   const handleSignOut = () => {
     firebase.auth().signOut();
@@ -41,18 +40,16 @@ export default function BarraUm(props) {
           <Typography variant="h6" className={classes.title}>
             {props.texto}
           </Typography>
-          {auth && (
-            <nav>
-              <Button
-                color="primary"
-                variant="outlined"
-                onClick={handleSignOut}
-                className={classes.link}
-              >
-                Logout
-              </Button>
-            </nav>
-          )}
+          <nav>
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={handleSignOut}
+              className={classes.link}
+            >
+              Logout
+            </Button>
+          </nav>
         </Toolbar>
       </AppBar>
     </div>

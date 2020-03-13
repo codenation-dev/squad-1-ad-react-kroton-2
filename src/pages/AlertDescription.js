@@ -6,12 +6,13 @@ import {
   Box,
   CircularProgress
 } from '@material-ui/core';
+import * as firebase from 'firebase/app';
+
 import AlertaEvent from '../components/Alert/AlertaEvent';
 import AlertaBody from '../components/Alert/AlertaBody';
 import AlertaHeader from '../components/Alert/AlertaHeader';
 import AlertaNav from '../components/Alert/AlertaNav';
-import BarraUm from '../components/BarraUm';
-import * as firebase from 'firebase/app';
+import BarraUsuario from '../components/BarraUsuario';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,10 +32,6 @@ const getAlertById = async (uid, id) => {
 
 function AlertDescription(props) {
   const classes = useStyles();
-  const [alertSeverity, setAlertSeverity] = React.useState({
-    severity: 'error',
-    description: 'ERRO'
-  });
   const [alert, setAlert] = React.useState({});
   const [showAlert, setShowAlert] = React.useState(false);
 
@@ -42,15 +39,15 @@ function AlertDescription(props) {
     const { uid } = firebase.auth().currentUser;
     const id = props.match.params.id;
 
-    getAlertById(uid, id).then(r => {
-      setAlert(r.data());
+    getAlertById(uid, id).then(response => {
+      setAlert(response.data());
       setShowAlert(true);
     });
-  }, []);
+  }, [props.match.params.id]);
 
   return (
     <div>
-      <BarraUm texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs"></BarraUm>
+      <BarraUsuario texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs" />
       <Paper>
         <Container>
           <AlertaNav />
@@ -66,8 +63,8 @@ function AlertDescription(props) {
               >
                 <AlertaBody title={alert.titulo} details={alert.detalhes} />
                 <AlertaEvent
-                  severity={alertSeverity.severity}
-                  description={alertSeverity.description}
+                  severity={alert.level === 'debug' ? 'info' : alert.level}
+                  description={alert.level.toUpperCase()}
                   eventos={alert.eventos}
                   coletadoPor={alert.coletadoPor}
                 />
