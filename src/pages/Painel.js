@@ -7,6 +7,15 @@ import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
 import Alerta from '../components/Alerta';
 import { db } from '../firebase/config';
+import {
+  TableContainer,
+  Paper,
+  Table,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableBody
+} from '@material-ui/core';
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
@@ -74,17 +83,31 @@ export default function ErroLista() {
         handleArquivar={handleArquivar}
         handleDeletar={handleDeletar}
       ></BarraCabecalho>
-      {alertas.map((alerta, index) => {
-        return (
-          <Alerta
-            setCheckados={setCheckados}
-            checkados={checkados}
-            key={index}
-            id={alerta.id}
-            alerta={alerta.data()}
-          ></Alerta>
-        );
-      })}
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell align="center">Level</TableCell>
+              <TableCell align="center">Log</TableCell>
+              <TableCell align="center">Eventos</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {alertas.map((alerta, index) => {
+              return (
+                <Alerta
+                  setCheckados={setCheckados}
+                  checkados={checkados}
+                  key={index}
+                  id={alerta.id}
+                  alerta={alerta.data()}
+                ></Alerta>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
       {/* apenas para teste */}
       <Link to="/alert/example">Pág Alerta</Link>
     </div>
