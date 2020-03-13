@@ -32,10 +32,6 @@ const getAlertById = async (uid, id) => {
 
 function AlertDescription(props) {
   const classes = useStyles();
-  const [alertSeverity, setAlertSeverity] = React.useState({
-    severity: 'error',
-    description: 'ERRO'
-  });
   const [alert, setAlert] = React.useState({});
   const [showAlert, setShowAlert] = React.useState(false);
 
@@ -43,8 +39,8 @@ function AlertDescription(props) {
     const { uid } = firebase.auth().currentUser;
     const id = props.match.params.id;
 
-    getAlertById(uid, id).then(r => {
-      setAlert(r.data());
+    getAlertById(uid, id).then(response => {
+      setAlert(response.data());
       setShowAlert(true);
     });
   }, [props.match.params.id]);
@@ -67,8 +63,8 @@ function AlertDescription(props) {
               >
                 <AlertaBody title={alert.titulo} details={alert.detalhes} />
                 <AlertaEvent
-                  severity={alertSeverity.severity}
-                  description={alertSeverity.description}
+                  severity={alert.level === 'debug' ? 'info' : alert.level}
+                  description={alert.level.toUpperCase()}
                   eventos={alert.eventos}
                   coletadoPor={alert.coletadoPor}
                 />

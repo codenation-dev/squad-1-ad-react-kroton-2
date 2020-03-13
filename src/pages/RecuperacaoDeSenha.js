@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app';
 
 import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
-import imageResetPassword from '../images/resetPassword.svg';
 import errors from '../errorsPtBR.json';
 
 const useStyles = makeStyles(theme => ({

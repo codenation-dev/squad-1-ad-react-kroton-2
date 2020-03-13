@@ -9,7 +9,6 @@ import * as firebase from 'firebase/app';
 
 import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
-import { db } from '../firebase/config';
 
 const useStyles = makeStyles(theme => ({
   root: {
