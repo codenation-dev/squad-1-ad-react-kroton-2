@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function BarraUm(props) {
+export default function BarraUsuario(props) {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -33,21 +33,13 @@ export default function BarraUm(props) {
   };
 
   const handleClose = () => {
-    firebase.auth().signOut()
+    firebase.auth().signOut();
   };
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {/* <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography variant="h6" className={classes.title}>
             {props.texto}
           </Typography>
@@ -77,7 +69,6 @@ export default function BarraUm(props) {
                 open={open}
                 onClose={handleClose}
               >
-                {/* <MenuItem onClick={handleClose}>Perfil</MenuItem> */}
                 <MenuItem onClick={handleClose}>Logout</MenuItem>
               </Menu>
             </div>

@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function BarraSimples(props) {
+export default function BarraCabecalho(props) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(false);
 

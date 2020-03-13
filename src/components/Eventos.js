@@ -42,14 +42,27 @@ export default function Eventos(evento2, index) {
     }
   };
 
+  const estilos = {
+    estiloDiv: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%',
+      marginTop: '15px'
+    },
+    estilodivCinza: {
+      display: 'flex',
+      flexDirection: 'row',
+      width: '100%',
+      marginTop: '15px',
+      opacity: '0.2'
+    }
+  };
+
   return (
     <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        width: '100%',
-        marginTop: '15px'
-      }}
+      style={
+        evento2.evento.arquivado ? estilos.estilodivCinza : estilos.estiloDiv
+      }
     >
       <Box
         display="flex"
@@ -60,6 +73,7 @@ export default function Eventos(evento2, index) {
       >
         <Box ml={3}>
           <Checkbox
+            disabled={evento2.evento.arquivado}
             checked={checked}
             onChange={handleChangeCheck}
             value="primary"
@@ -80,7 +94,6 @@ export default function Eventos(evento2, index) {
           </Box>
 
           <Box display="flex" flexDirection="column" alignItems="center">
-            <Box>{evento2.evento.arquivado?'True':'false'}</Box>
             <Box>{evento2.evento.descricao}</Box>
             <Box>{evento2.evento.origem}</Box>
             <Box>{timeConverter(evento2.evento.criadoEm.seconds)}</Box>
