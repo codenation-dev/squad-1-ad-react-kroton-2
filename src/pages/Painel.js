@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as firebase from 'firebase/app';
-import { Link } from 'react-router-dom';
 
 import BarraPesquisa from '../components/BarraPesquisa';
 import BarraUsuario from '../components/BarraUsuario';
@@ -14,7 +13,8 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  Container
 } from '@material-ui/core';
 
 export default function ErroLista() {
@@ -83,33 +83,33 @@ export default function ErroLista() {
         handleArquivar={handleArquivar}
         handleDeletar={handleDeletar}
       ></BarraCabecalho>
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell align="center">Level</TableCell>
-              <TableCell align="center">Log</TableCell>
-              <TableCell align="center">Eventos</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {alertas.map((alerta, index) => {
-              return (
-                <Alerta
-                  setCheckados={setCheckados}
-                  checkados={checkados}
-                  key={index}
-                  id={alerta.id}
-                  alerta={alerta.data()}
-                ></Alerta>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      {/* apenas para teste */}
-      <Link to="/alert/example">Pág Alerta</Link>
+      <Container>
+        <TableContainer component={Paper} style={{ marginTop: '10px' }}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell />
+                <TableCell align="center">Level</TableCell>
+                <TableCell align="center">Log</TableCell>
+                <TableCell align="center">Eventos</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {alertas.map((alerta, index) => {
+                return (
+                  <Alerta
+                    setCheckados={setCheckados}
+                    checkados={checkados}
+                    key={index}
+                    id={alerta.id}
+                    alerta={alerta.data()}
+                  ></Alerta>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
     </div>
   );
 }

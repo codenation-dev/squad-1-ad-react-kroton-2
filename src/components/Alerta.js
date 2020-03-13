@@ -1,16 +1,20 @@
 import React from 'react';
 import Moment from 'react-moment';
+import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
-const useStyles = makeStyles({
-  log: {
-    display: 'flex',
-    flexDirection: 'column'
-  }
-});
-
 export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
+  const useStyles = makeStyles({
+    log: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    tableRow: {
+      backgroundColor: alerta.arquivado ? '#eee' : '#fff'
+    }
+  });
+
   const classes = useStyles();
   const [checked, setChecked] = React.useState(false);
 
@@ -25,7 +29,7 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   };
 
   return (
-    <TableRow>
+    <TableRow className={classes.tableRow}>
       <TableCell align="center">
         <Checkbox
           checked={checked}
@@ -36,10 +40,12 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
         />
       </TableCell>
 
-      <TableCell align="center">{alerta.level}</TableCell>
+      <TableCell align="center" className={classes.level}>
+        {alerta.level}
+      </TableCell>
 
       <TableCell className={classes.log} align="center">
-        <span>{alerta.descricao}</span>
+        <Link to={`/alert/${id}`}>{alerta.descricao}</Link>
         <span>{alerta.origem}</span>
         <span>
           <Moment unix format="DD/MM/YYYY HH:mm">
