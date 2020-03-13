@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import * as firebase from 'firebase/app';
+
+import SplashScreen from './components/SplashScreen';
 import Login from './pages/Login';
 import RecuperacaoDeSenha from './pages/RecuperacaoDeSenha';
 import Cadastro from './pages/Cadastro';
@@ -33,20 +35,22 @@ const PublicRoute = ({ component, isAuthenticated, ...rest }) => (
 
 function Routes() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        setTimeout(() => setIsLoading(false), 1000);
         return setIsAuthenticated(true);
       }
+      setTimeout(() => setIsLoading(false), 1000);
       return setIsAuthenticated(false);
     });
-
-    return unsubscribe;
   }, []);
 
   return (
     <Switch>
+      {isLoading && <SplashScreen />}
       <PublicRoute
         path="/login"
         isAuthenticated={isAuthenticated}

@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
   input: {
     marginLeft: theme.spacing(1),
-    marginTop: 10, //theme.spacing(1),
+    marginTop: 10,
     flex: 1
   },
   iconButton: {

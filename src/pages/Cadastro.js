@@ -6,6 +6,8 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app';
+
+import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
 
 const useStyles = makeStyles(theme => ({
@@ -25,8 +27,9 @@ const useStyles = makeStyles(theme => ({
     }
   },
   title: {
-    color: '#33333d',
-    textAlign: 'Center'
+    textAlign: 'center',
+    marginTop: '40px',
+    marginBottom: '20px'
   },
   buttonMargin: {
     marginTop: 30
@@ -71,6 +74,7 @@ export default function Cadastro({ history }) {
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={2}>
         <form onSubmit={createAccount} noValidate autoComplete="off">
+          <TrackErrLogo />
           <Typography className={classes.title} component="h1" variant="h5">
             Cadastro
           </Typography>
