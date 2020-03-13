@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
-import { TextField } from '@material-ui/core';
-import { Button } from '@material-ui/core';
-import { Link } from '@material-ui/core';
+import { Paper, Typography, TextField, Button, Link } from '@material-ui/core';
 import * as firebase from 'firebase/app';
+
+import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
 
 const useStyles = makeStyles(theme => ({
@@ -18,7 +17,16 @@ const useStyles = makeStyles(theme => ({
   },
   paper: {
     width: 380,
-    padding: 40
+    padding: 40,
+    [theme.breakpoints.down('sm')]: {
+      width: 345
+    },
+    marginBottom: '5px'
+  },
+  title: {
+    textAlign: 'center',
+    marginTop: '40px',
+    marginBottom: '20px'
   },
   textMargin: {
     marginBottom: 20
@@ -70,6 +78,11 @@ function Login({ history }) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper} elevation={2}>
+        <TrackErrLogo />
+        <Typography className={classes.title} component="h1" variant="h5">
+          Acesse sua conta
+        </Typography>
+
         <form onSubmit={validateLogin} noValidate autoComplete="off">
           <div className={classes.textMargin}>
             <TextField

@@ -1,14 +1,8 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import * as firebase from 'firebase/app';
+import { ReactComponent as Logo } from '../assets/logo_s_v_b.svg';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,21 +12,24 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   title: {
-    flexGrow: 1
+    marginLeft: theme.spacing(2),
+    flexGrow: 1,
+    fontSize: '15px'
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+    color: 'white',
+    '&:hover': {
+      borderColor: 'white'
+    }
   }
 }));
 
 export default function BarraUsuario(props) {
   const classes = useStyles();
   const [auth, setAuth] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
 
-  const handleMenu = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
+  const handleSignOut = () => {
     firebase.auth().signOut();
   };
 
@@ -40,38 +37,21 @@ export default function BarraUsuario(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
+          <Logo />
           <Typography variant="h6" className={classes.title}>
             {props.texto}
           </Typography>
           {auth && (
-            <div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
+            <nav>
+              <Button
+                color="primary"
+                variant="outlined"
+                onClick={handleSignOut}
+                className={classes.link}
               >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right'
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right'
-                }}
-                open={open}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-              </Menu>
-            </div>
+                Logout
+              </Button>
+            </nav>
           )}
         </Toolbar>
       </AppBar>

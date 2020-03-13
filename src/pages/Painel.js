@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import * as firebase from 'firebase/app';
+import { Link } from 'react-router-dom';
+
 import BarraPesquisa from '../components/BarraPesquisa';
 import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
 import Eventos from '../components/Eventos';
-import * as firebase from 'firebase/app';
 import { db } from '../firebase/config';
 
 export default function ErroLista() {
@@ -55,7 +57,6 @@ export default function ErroLista() {
       .get()
       .then(querySnapshot => {
         setAlertas(querySnapshot.docs);
-        const data = querySnapshot.docs.map(doc => doc.data());
       });
   };
 
@@ -84,6 +85,8 @@ export default function ErroLista() {
           ></Eventos>
         );
       })}
+      {/* apenas para teste */}
+      <Link to="/alert/example">Pág Alerta</Link>
     </div>
   );
 }
