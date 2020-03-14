@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, TextField, Button, Link } from '@material-ui/core';
+import { Paper, Typography, TextField, Button } from '@material-ui/core';
 import * as firebase from 'firebase/app';
 
 import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
@@ -125,7 +126,7 @@ function Login({ history }) {
             Login
           </Button>
           <div className={classes.forgotPass}>
-            <Link href="/recuperacao-de-senha">
+            <Link to="/recuperacao-de-senha">
               <small>Esqueceu a senha?</small>
             </Link>
           </div>
@@ -133,7 +134,7 @@ function Login({ history }) {
       </Paper>
       <div>
         <small>
-          Ainda não possuí cadastro? <Link href="/cadastro">Entre aqui</Link>
+          Ainda não possuí cadastro? <Link to="/cadastro">Entre aqui</Link>
         </small>
       </div>
     </div>

@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
+import { Button, TextField, Typography, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app';
 
@@ -118,7 +115,7 @@ export default function Cadastro({ history }) {
           </Button>
         </form>
         <div className={classes.returnLogin}>
-          <Link href="/login">
+          <Link to="/login">
             <small>Retornar ao Login</small>
           </Link>
         </div>

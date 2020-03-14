@@ -43,7 +43,7 @@ export default function ErroLista(props) {
 
     if (search) query = query.where(search, '==', valueSearch);
 
-    if (order) query = query.orderBy(order, 'asc');
+    if (order !== search) if (order) query = query.orderBy(order, 'asc');
 
     query.get().then(querySnapshot => {
       setAlertas(querySnapshot.docs);
