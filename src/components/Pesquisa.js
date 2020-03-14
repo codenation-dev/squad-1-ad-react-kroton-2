@@ -24,8 +24,16 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Pesquisa() {
+export default function Pesquisa(props) {
   const classes = useStyles();
+  const [value, setValue] = React.useState('');
+  const { toClean } = props;
+
+  React.useEffect(() => {
+    if (toClean) {
+      setValue('');
+    }
+  }, [toClean]);
 
   return (
     <Paper component="form" className={classes.root}>
@@ -35,8 +43,11 @@ export default function Pesquisa() {
         className={classes.input}
         placeholder="Pesquisa"
         inputProps={{ 'aria-label': 'search google maps' }}
+        onChange={event => setValue(event.target.value)}
+        value={value}
       />
       <IconButton
+        onClick={e => props.onSearch(value, e)}
         type="submit"
         className={classes.iconButton}
         aria-label="search"

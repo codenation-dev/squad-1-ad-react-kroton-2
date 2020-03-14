@@ -26,7 +26,7 @@ export default function ErroLista() {
       <BarraUm
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUm>
-      <BarraDois></BarraDois>
+      <BarraDois setAlertas={setAlertas}></BarraDois>
       <BarraSimples></BarraSimples>
 
       {alertas.map((e, index) => {
