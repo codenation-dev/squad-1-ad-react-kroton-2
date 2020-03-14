@@ -13,20 +13,19 @@ const getRandomValueFrom = array => {
   return array[Math.floor(Math.random() * array.length)];
 };
 
-const payload = {
-  detalhes: 'bla bla bla',
-  descricao: 'Ipsum dolor...',
-  titulo: 'Erro 404',
-  ambiente: getRandomValueFrom(ambientes),
-  origem: getRandomValueFrom(origens),
-  coletadoPor: 'usuário XPTO',
-  eventos: Math.floor(Math.random() * 3000),
-  level: getRandomValueFrom(leveis),
-  criadoEm: new Date(),
-  arquivado: false
-};
-
 exports.createUserData = functions.https.onRequest((request, response) => {
+  const payload = {
+    detalhes: 'bla bla bla',
+    descricao: 'Ipsum dolor...',
+    titulo: 'Erro 404',
+    ambiente: getRandomValueFrom(ambientes),
+    origem: getRandomValueFrom(origens),
+    coletadoPor: 'usuário XPTO',
+    eventos: Math.floor(Math.random() * 3000),
+    level: getRandomValueFrom(leveis),
+    criadoEm: new Date(),
+    arquivado: false
+  };
   const userId = request.url.substr(1);
 
   const usersCollectionRef = db.collection('usuários');
@@ -40,6 +39,16 @@ exports.createUserData = functions.https.onRequest((request, response) => {
 });
 
 exports.createUser = functions.auth.user().onCreate(async user => {
+  const payload = {
+    detalhes: 'bla bla bla',
+    ambiente: getRandomValueFrom(ambientes),
+    origem: getRandomValueFrom(origens),
+    coletadoPor: 'usuário XPTO',
+    eventos: Math.floor(Math.random() * 3000),
+    level: getRandomValueFrom(leveis),
+    criadoEm: new Date(),
+    arquivado: false
+  };
   const { uid, email } = user;
 
   const usersCollectionRef = db.collection('usuários');
