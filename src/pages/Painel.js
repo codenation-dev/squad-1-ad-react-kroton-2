@@ -14,7 +14,9 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Container
+  Container,
+  TableFooter,
+  TablePagination
 } from '@material-ui/core';
 
 export default function ErroLista() {
@@ -37,8 +39,7 @@ export default function ErroLista() {
         .collection('alertas')
         .doc(idAlerta)
         .delete();
-      listaAlertas();
-      setCheckados([]);
+      return setCheckados([]);
     } catch (error) {
       console.log(error);
     }
@@ -52,7 +53,6 @@ export default function ErroLista() {
         .collection('alertas')
         .doc(idAlerta)
         .update({ arquivado: true });
-      listaAlertas();
       setCheckados([]);
     } catch (error) {
       console.log(error);
@@ -63,8 +63,9 @@ export default function ErroLista() {
     db.collection('usuários')
       .doc(firebase.auth().currentUser.uid)
       .collection('alertas')
-      .get()
-      .then(querySnapshot => {
+      .orderBy('criadoEm', 'desc')
+      .limit(10)
+      .onSnapshot(querySnapshot => {
         setAlertas(querySnapshot.docs);
       });
   };
@@ -107,6 +108,17 @@ export default function ErroLista() {
                 );
               })}
             </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TablePagination
+                  rowsPerPageOptions={[10]}
+                  rowsPerPage={10}
+                  count={alertas.length}
+                  page={0}
+                  onChangePage={() => {}}
+                />
+              </TableRow>
+            </TableFooter>
           </Table>
         </TableContainer>
       </Container>
