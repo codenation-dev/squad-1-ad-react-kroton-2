@@ -22,6 +22,7 @@ import {
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
   const [checkados, setCheckados] = useState([]);
+  const [page, setPage] = React.useState(0);
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -64,15 +65,20 @@ export default function ErroLista() {
       .doc(firebase.auth().currentUser.uid)
       .collection('alertas')
       .orderBy('criadoEm', 'desc')
-      .limit(10)
       .onSnapshot(querySnapshot => {
         setAlertas(querySnapshot.docs);
       });
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   useEffect(() => {
     listaAlertas();
   }, []);
+
+  const rowsPerPage = 10;
 
   return (
     <div>
@@ -96,26 +102,28 @@ export default function ErroLista() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {alertas.map((alerta, index) => {
-                return (
-                  <Alerta
-                    setCheckados={setCheckados}
-                    checkados={checkados}
-                    key={index}
-                    id={alerta.id}
-                    alerta={alerta.data()}
-                  ></Alerta>
-                );
-              })}
+              {alertas
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((alerta, index) => {
+                  return (
+                    <Alerta
+                      setCheckados={setCheckados}
+                      checkados={checkados}
+                      key={index}
+                      id={alerta.id}
+                      alerta={alerta.data()}
+                    ></Alerta>
+                  );
+                })}
             </TableBody>
             <TableFooter>
               <TableRow>
                 <TablePagination
                   rowsPerPageOptions={[10]}
-                  rowsPerPage={10}
+                  rowsPerPage={rowsPerPage}
                   count={alertas.length}
-                  page={0}
-                  onChangePage={() => {}}
+                  page={page}
+                  onChangePage={handleChangePage}
                 />
               </TableRow>
             </TableFooter>
