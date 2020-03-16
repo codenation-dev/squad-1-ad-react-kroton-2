@@ -47,7 +47,7 @@ function AlertDescription(props) {
 
   return (
     <div>
-      <BarraUsuario texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs" />
+      <BarraUsuario texto={`Bem vindo ${firebase.auth().currentUser.email}`} />
       <Paper>
         <Container>
           <AlertaNav />
