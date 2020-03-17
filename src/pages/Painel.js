@@ -5,6 +5,7 @@ import BarraPesquisa from '../components/BarraPesquisa';
 import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
 import Alerta from '../components/Alerta';
+import EmptyLista from '../components/EmptyLista';
 import { db } from '../firebase/config';
 import {
   TableContainer,
@@ -81,41 +82,49 @@ export default function ErroLista() {
       <BarraUsuario
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUsuario>
-      <BarraPesquisa></BarraPesquisa>
-      <BarraCabecalho
-        handleArquivar={handleArquivar}
-        handleDeletar={handleDeletar}
-      ></BarraCabecalho>
+
       {!isLoading && <CircularProgress />}
-      {isLoading &&
-        <Container>
-          <TableContainer component={Paper} style={{ marginTop: '10px' }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell />
-                  <TableCell align="center">Level</TableCell>
-                  <TableCell align="center">Log</TableCell>
-                  <TableCell align="center">Eventos</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {alertas.map((alerta, index) => {
-                  return (
-                    <Alerta
-                      setCheckados={setCheckados}
-                      checkados={checkados}
-                      key={index}
-                      id={alerta.id}
-                      alerta={alerta.data()}
-                    ></Alerta>
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Container>
-      }
+      {isLoading && (
+        <>
+          <BarraPesquisa></BarraPesquisa>
+          {alertas.length === 0 && <EmptyLista />}
+          {alertas.length !== 0 && (
+            <>
+              <BarraCabecalho
+                handleArquivar={handleArquivar}
+                handleDeletar={handleDeletar}
+              ></BarraCabecalho>
+              <Container>
+                <TableContainer component={Paper} style={{ marginTop: '10px' }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell />
+                        <TableCell align="center">Level</TableCell>
+                        <TableCell align="center">Log</TableCell>
+                        <TableCell align="center">Eventos</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {alertas.map((alerta, index) => {
+                        return (
+                          <Alerta
+                            setCheckados={setCheckados}
+                            checkados={checkados}
+                            key={index}
+                            id={alerta.id}
+                            alerta={alerta.data()}
+                          ></Alerta>
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Container>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
