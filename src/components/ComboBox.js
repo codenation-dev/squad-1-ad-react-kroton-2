@@ -13,6 +13,9 @@ const useStyles = makeStyles(theme => ({
   selectEmpty: {
     marginTop: theme.spacing(0),
     width: 150
+  },
+  componentWidth: {
+    flexGrow: 0
   }
 }));
 
@@ -26,8 +29,8 @@ export default function SimpleSelect(props) {
   }, []);
 
   return (
-    <div>
-      <FormControl variant="outlined" className={classes.formControl}>
+    <div className={classes.componentWidth}>
+      <FormControl className={classes.formControl}>
         <InputLabel
           className={classes.selectEmpty}
           ref={inputLabel}
@@ -42,6 +45,7 @@ export default function SimpleSelect(props) {
           value={props.value}
           onChange={props.handleChange}
           labelWidth={labelWidth}
+          size="small"
         >
           <MenuItem value="">
             <em>{props.label}</em>

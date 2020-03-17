@@ -4,7 +4,8 @@ import Pesquisa from '../components/Pesquisa';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import AppBar from '@material-ui/core/AppBar';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Button } from '@material-ui/core/';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import * as firebase from 'firebase/app';
 import { db } from '../firebase/config';
@@ -16,7 +17,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   toolbar: {
+    display: 'flex',
     flexWrap: 'wrap'
+  },
+  clearButton: {
+    marginTop: theme.spacing(1),
+    marginLeft: theme.spacing(1)
   }
 }));
 
@@ -33,6 +39,17 @@ export default function ErroLista(props) {
   const [valueSearch, setValueSearch] = React.useState('');
   const [toClean, setToClean] = React.useState(false);
 
+  const handleClearFilters = function() {
+    setTipo('');
+    setType('');
+    setOrdem('');
+    setOrder('');
+    setBusca('');
+    setSearch('');
+    setToClean(true);
+    filterPanel('', '', '', '');
+  };
+
   const filterPanel = function(type, order, search, valueSearch) {
     let query = db
       .collection('usuários')
@@ -43,7 +60,9 @@ export default function ErroLista(props) {
 
     if (search) query = query.where(search, '==', valueSearch);
 
-    if (order !== search) if (order) query = query.orderBy(order, 'asc');
+    if (order !== search)
+      if (order)
+        query = query.orderBy(order, order === 'eventos' ? 'desc' : 'asc');
 
     query.get().then(querySnapshot => {
       setAlertas(querySnapshot.docs);
@@ -103,6 +122,7 @@ export default function ErroLista(props) {
 
   const handleSearch = (value, event) => {
     event.preventDefault();
+    debugger;
 
     const result = buscas.filter(search => search.codigo === busca);
 
@@ -129,7 +149,7 @@ export default function ErroLista(props) {
 
   const ordens = [
     { field: 'level', descricao: 'Level', codigo: 1 },
-    { field: 'frequencia', descricao: 'Frequência', codigo: 2 }
+    { field: 'eventos', descricao: 'Frequência', codigo: 2 }
   ];
 
   const buscas = [
@@ -162,6 +182,16 @@ export default function ErroLista(props) {
             options={buscas}
           />
           <Pesquisa onSearch={handleSearch} toClean={toClean}></Pesquisa>
+          <Button
+            variant="outlined"
+            color="primary"
+            ize="small"
+            className={classes.clearButton}
+            startIcon={<DeleteIcon />}
+            onClick={handleClearFilters}
+          >
+            Limpar
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
