@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Typography,
-  makeStyles,
-  Card,
-  CardContent,
-  Divider
-} from '@material-ui/core';
+import { Typography, makeStyles, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   event: {

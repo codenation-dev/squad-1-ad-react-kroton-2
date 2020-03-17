@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Paper,
-  Container,
-  makeStyles,
-  Box,
-  CircularProgress
-} from '@material-ui/core';
+import { Paper, makeStyles, Box, CircularProgress } from '@material-ui/core';
 import * as firebase from 'firebase/app';
 
 import AlertaEvent from '../components/Alert/AlertaEvent';
@@ -74,7 +68,6 @@ function AlertDescription(props) {
       <div className={classes.box}>
         <div className={classes.fillContent}>
           <Paper className={classes.paper}>
-            {/* <Container> */}
             {!showAlert && <CircularProgress />}
             {showAlert && (
               <div>
@@ -90,7 +83,6 @@ function AlertDescription(props) {
                 </Box>
               </div>
             )}
-            {/* </Container> */}
           </Paper>
         </div>
       </div>
