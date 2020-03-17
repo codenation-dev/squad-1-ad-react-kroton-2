@@ -43,7 +43,7 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       </TableCell>
 
       <TableCell align="center" className={classes.level}>
-        <Alert style={{ textAlign: "center" }} severity={alerta.level === 'debug' ? 'info' : alerta.level}>{alerta.level}</Alert>
+        <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>{alerta.level.toUpperCase()}</Alert>
       </TableCell>
 
       <TableCell className={classes.log} align="center">

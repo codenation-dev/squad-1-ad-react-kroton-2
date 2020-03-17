@@ -21,7 +21,7 @@ import {
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
   const [checkados, setCheckados] = useState([]);
-  const [showAlert, setShowAlert] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -68,7 +68,7 @@ export default function ErroLista() {
       .get()
       .then(querySnapshot => {
         setAlertas(querySnapshot.docs);
-        setShowAlert(true);
+        setIsLoading(true);
       });
   };
 
@@ -86,8 +86,8 @@ export default function ErroLista() {
         handleArquivar={handleArquivar}
         handleDeletar={handleDeletar}
       ></BarraCabecalho>
-      {!showAlert && <CircularProgress />}
-      {showAlert &&
+      {!isLoading && <CircularProgress />}
+      {isLoading &&
         <Container>
           <TableContainer component={Paper} style={{ marginTop: '10px' }}>
             <Table>

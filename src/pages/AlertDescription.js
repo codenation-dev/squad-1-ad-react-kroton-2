@@ -33,7 +33,7 @@ const getAlertById = async (uid, id) => {
 function AlertDescription(props) {
   const classes = useStyles();
   const [alert, setAlert] = React.useState({});
-  const [showAlert, setShowAlert] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     const { uid } = firebase.auth().currentUser;
@@ -41,7 +41,7 @@ function AlertDescription(props) {
 
     getAlertById(uid, id).then(response => {
       setAlert(response.data());
-      setShowAlert(true);
+      setIsLoading(true);
     });
   }, [props.match.params.id]);
 
@@ -51,8 +51,8 @@ function AlertDescription(props) {
       <Paper>
         <Container>
           <AlertaNav />
-          {!showAlert && <CircularProgress />}
-          {showAlert && (
+          {!isLoading && <CircularProgress />}
+          {isLoading && (
             <div>
               <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
               <Box
