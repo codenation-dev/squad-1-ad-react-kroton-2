@@ -43,10 +43,10 @@ const getAlertById = async (uid, id) => {
 function AlertDescription(props) {
   const classes = useStyles();
   const [alert, setAlert] = React.useState({});
-  const [showAlert, setShowAlert] = React.useState(false);
   const [id, setId] = React.useState('');
   const [uid, setUid] = React.useState('');
   const [arquivado, setArquivado] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   React.useEffect(() => {
     const { uid } = firebase.auth().currentUser;
@@ -54,22 +54,22 @@ function AlertDescription(props) {
 
     getAlertById(uid, id).then(response => {
       setAlert(response.data());
-      setShowAlert(true);
       setId(id);
       setUid(uid);
       setArquivado(response.data().arquivado);
+      setIsLoading(true);
     });
   }, [props.match.params.id]);
 
   return (
     <div className={classes.flexScreen}>
-      <BarraUsuario texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs" />
+      <BarraUsuario texto={`Bem vindo ${firebase.auth().currentUser.email}`} />
       <AlertaNav id={id} uid={uid} arquivado={arquivado} />
       <div className={classes.box}>
         <div className={classes.fillContent}>
           <Paper className={classes.paper}>
-            {!showAlert && <CircularProgress />}
-            {showAlert && (
+            {!isLoading && <CircularProgress />}
+            {isLoading && (
               <div>
                 <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
                 <Box display="flex" flexDirection="row">
