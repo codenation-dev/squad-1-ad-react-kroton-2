@@ -8,6 +8,7 @@ import RecuperacaoDeSenha from './pages/RecuperacaoDeSenha';
 import Cadastro from './pages/Cadastro';
 import Painel from './pages/Painel';
 import AlertDescription from './pages/AlertDescription';
+import NaoEncontrado from './pages/NaoEncontrado';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
@@ -77,6 +78,16 @@ function Routes() {
         path="/alert/:id"
         isAuthenticated={isAuthenticated}
         component={AlertDescription}
+      />
+      <PublicRoute
+        path="/404"
+        isAuthenticated={isAuthenticated}
+        component={NaoEncontrado}
+      />
+      <PublicRoute
+        path="*"
+        isAuthenticated={isAuthenticated}
+        component={NaoEncontrado}
       />
     </Switch>
   );
