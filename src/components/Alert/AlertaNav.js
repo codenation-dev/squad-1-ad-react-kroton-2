@@ -1,11 +1,13 @@
 import React from 'react';
-import {
-  ButtonBase,
-  BottomNavigation,
-  BottomNavigationAction,
-  makeStyles
-} from '@material-ui/core';
+import { makeStyles, Button } from '@material-ui/core';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 import { Link } from 'react-router-dom';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import WorkOffIcon from '@material-ui/icons/WorkOff';
+
+import * as firebase from 'firebase/app';
+import { db } from '../../firebase/config';
 
 const useStyles = makeStyles(theme => ({
   btnVoltar: {
@@ -21,25 +23,89 @@ const useStyles = makeStyles(theme => ({
     fontSize: 25,
     '&:hover': { textDecoration: 'none', color: 'white' },
     '&:active': { textDecoration: 'none', color: 'white' }
+  },
+  flexRow: {
+    padding: 10,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#e3e3e3',
+    height: 60
+  },
+  buttonFlex: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  labelLeft: {
+    marginLeft: 3
   }
 }));
 
-export default function AlertaHeader({ origem, criadoem }) {
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export default function AlertaNav({ origem, criadoem, id, uid, arquivado }) {
   const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const [record, setRecord] = React.useState(arquivado);
+
+  const handleDesarquivar = () => {
+    desarquivar(firebase.auth().currentUser.uid, id);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    debugger;
+    setOpen(false);
+  };
+
+  React.useEffect(() => {
+    setRecord(arquivado);
+  }, [arquivado]);
+
+  const desarquivar = async (uid, idAlerta) => {
+    try {
+      await db
+        .collection('usuários')
+        .doc(uid)
+        .collection('alertas')
+        .doc(idAlerta)
+        .update({ arquivado: false });
+      setOpen(true);
+      setRecord(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div>
-      <nav>
-        <ButtonBase>
-          <BottomNavigation className={classes.btnVoltar}>
-            <BottomNavigationAction
-              label="VOLTAR"
-              showLabel={true}
-              component={Link}
-              to="/"
-              className={classes.label}
-            />
-          </BottomNavigation>
-        </ButtonBase>
+      <nav className={classes.flexRow}>
+        <Button component={Link} to="/" variant="outlined">
+          <div className={classes.buttonFlex}>
+            <ArrowBackIcon /> <span className={classes.labelLeft}>Voltar</span>
+          </div>
+        </Button>
+        {record && (
+          <Button
+            onClick={handleDesarquivar}
+            variant="outlined"
+            color="secondary"
+          >
+            <div className={classes.buttonFlex}>
+              <WorkOffIcon />{' '}
+              <span className={classes.labelLeft}>Desarquivar</span>
+            </div>
+          </Button>
+        )}
+        <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="success">
+            Alerta desarquivado com sucesso!
+          </Alert>
+        </Snackbar>
       </nav>
     </div>
   );

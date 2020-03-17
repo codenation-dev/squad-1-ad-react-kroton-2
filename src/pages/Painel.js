@@ -16,13 +16,15 @@ import {
   TableBody,
   Container,
   TableFooter,
-  TablePagination
+  TablePagination,
+  CircularProgress
 } from '@material-ui/core';
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
   const [checkados, setCheckados] = useState([]);
   const [page, setPage] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -67,6 +69,7 @@ export default function ErroLista() {
       .orderBy('criadoEm', 'desc')
       .onSnapshot(querySnapshot => {
         setAlertas(querySnapshot.docs);
+        setIsLoading(true);
       });
   };
 
@@ -90,46 +93,49 @@ export default function ErroLista() {
         handleArquivar={handleArquivar}
         handleDeletar={handleDeletar}
       ></BarraCabecalho>
-      <Container>
-        <TableContainer component={Paper} style={{ marginTop: '10px' }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell align="center">Level</TableCell>
-                <TableCell align="center">Log</TableCell>
-                <TableCell align="center">Eventos</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {alertas
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((alerta, index) => {
-                  return (
-                    <Alerta
-                      setCheckados={setCheckados}
-                      checkados={checkados}
-                      key={index}
-                      id={alerta.id}
-                      alerta={alerta.data()}
-                    ></Alerta>
-                  );
-                })}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[10]}
-                  rowsPerPage={rowsPerPage}
-                  count={alertas.length}
-                  page={page}
-                  onChangePage={handleChangePage}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-      </Container>
+      {!isLoading && <CircularProgress />}
+      {isLoading && (
+        <Container>
+          <TableContainer component={Paper} style={{ marginTop: '10px' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell align="center">Level</TableCell>
+                  <TableCell align="center">Log</TableCell>
+                  <TableCell align="center">Eventos</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {alertas
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((alerta, index) => {
+                    return (
+                      <Alerta
+                        setCheckados={setCheckados}
+                        checkados={checkados}
+                        key={index}
+                        id={alerta.id}
+                        alerta={alerta.data()}
+                      ></Alerta>
+                    );
+                  })}
+              </TableBody>
+              <TableFooter>
+                <TableRow>
+                  <TablePagination
+                    rowsPerPageOptions={[10]}
+                    rowsPerPage={rowsPerPage}
+                    count={alertas.length}
+                    page={page}
+                    onChangePage={handleChangePage}
+                  />
+                </TableRow>
+              </TableFooter>
+            </Table>
+          </TableContainer>
+        </Container>
+      )}
     </div>
   );
 }

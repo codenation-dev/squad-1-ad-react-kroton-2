@@ -3,6 +3,8 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
+
 
 export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   const useStyles = makeStyles({
@@ -45,7 +47,7 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       </TableCell>
 
       <TableCell align="center" className={classes.level}>
-        {alerta.level}
+        <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>{alerta.level.toUpperCase()}</Alert>
       </TableCell>
 
       <TableCell className={classes.log} align="center">
