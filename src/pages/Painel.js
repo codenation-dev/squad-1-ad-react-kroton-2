@@ -84,11 +84,11 @@ export default function ErroLista() {
       ></BarraUsuario>
 
       {!isLoading && <CircularProgress />}
-      {isLoading &&
+      {isLoading && (
         <>
           <BarraPesquisa></BarraPesquisa>
           {alertas.length === 0 && <EmptyLista />}
-          {alertas.length !== 0 &&
+          {alertas.length !== 0 && (
             <>
               <BarraCabecalho
                 handleArquivar={handleArquivar}
@@ -122,9 +122,9 @@ export default function ErroLista() {
                 </TableContainer>
               </Container>
             </>
-          }
+          )}
         </>
-      }
+      )}
     </div>
   );
 }
