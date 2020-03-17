@@ -15,14 +15,30 @@ import AlertaNav from '../components/Alert/AlertaNav';
 import BarraUsuario from '../components/BarraUsuario';
 
 const useStyles = makeStyles(theme => ({
-  container: {
-    marginTop: 20
+  paper: {
+    marginTop: 30,
+    padding: 30
+  },
+  flexScreen: {
+    display: 'flex',
+    flexFlow: 'column',
+    height: '100vh'
+  },
+  box: {
+    display: 'flex',
+    flexFlow: 'column',
+    alignItems: 'center',
+    backgroundColor: '#f9f9f9',
+    flexGrow: 1
+  },
+  fillContent: {
+    width: '95%'
   }
 }));
 
 const getAlertById = async (uid, id) => {
   const db = firebase.firestore();
-  return db
+  return await db
     .collection('usuários')
     .doc(uid)
     .collection('alertas')
@@ -34,6 +50,9 @@ function AlertDescription(props) {
   const classes = useStyles();
   const [alert, setAlert] = React.useState({});
   const [showAlert, setShowAlert] = React.useState(false);
+  const [id, setId] = React.useState('');
+  const [uid, setUid] = React.useState('');
+  const [arquivado, setArquivado] = React.useState(false);
 
   React.useEffect(() => {
     const { uid } = firebase.auth().currentUser;
@@ -42,37 +61,39 @@ function AlertDescription(props) {
     getAlertById(uid, id).then(response => {
       setAlert(response.data());
       setShowAlert(true);
+      setId(id);
+      setUid(uid);
+      setArquivado(response.data().arquivado);
     });
   }, [props.match.params.id]);
 
   return (
-    <div>
+    <div className={classes.flexScreen}>
       <BarraUsuario texto="Bem vindo Usuário. Seu token é: 321wwjsjsjsjsjsjsjs" />
-      <Paper>
-        <Container>
-          <AlertaNav />
-          {!showAlert && <CircularProgress />}
-          {showAlert && (
-            <div>
-              <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
-              <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="flex-start"
-                className={classes.container}
-              >
-                <AlertaBody title={alert.titulo} details={alert.detalhes} />
-                <AlertaEvent
-                  severity={alert.level === 'debug' ? 'info' : alert.level}
-                  description={alert.level.toUpperCase()}
-                  eventos={alert.eventos}
-                  coletadoPor={alert.coletadoPor}
-                />
-              </Box>
-            </div>
-          )}
-        </Container>
-      </Paper>
+      <AlertaNav id={id} uid={uid} arquivado={arquivado} />
+      <div className={classes.box}>
+        <div className={classes.fillContent}>
+          <Paper className={classes.paper}>
+            {/* <Container> */}
+            {!showAlert && <CircularProgress />}
+            {showAlert && (
+              <div>
+                <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
+                <Box display="flex" flexDirection="row">
+                  <AlertaBody title={alert.titulo} details={alert.detalhes} />
+                  <AlertaEvent
+                    severity={alert.level === 'debug' ? 'info' : alert.level}
+                    description={alert.level.toUpperCase()}
+                    eventos={alert.eventos}
+                    coletadoPor={alert.coletadoPor}
+                  />
+                </Box>
+              </div>
+            )}
+            {/* </Container> */}
+          </Paper>
+        </div>
+      </div>
     </div>
   );
 }
