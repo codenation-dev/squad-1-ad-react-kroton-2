@@ -79,11 +79,11 @@ export default function ErroLista() {
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUsuario>
       <BarraPesquisa setAlertas={setAlertas}></BarraPesquisa>
-      <BarraCabecalho
-        handleArquivar={handleArquivar}
-        handleDeletar={handleDeletar}
-      ></BarraCabecalho>
       <Container>
+        <BarraCabecalho
+          handleArquivar={handleArquivar}
+          handleDeletar={handleDeletar}
+        ></BarraCabecalho>
         <TableContainer component={Paper} style={{ marginTop: '10px' }}>
           <Table>
             <TableHead>

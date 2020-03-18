@@ -14,15 +14,21 @@ import { db } from '../firebase/config';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    backgroundColor: '#e3e3e3',
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingTop: 5,
+    paddingBottom: 5
   },
   toolbar: {
     display: 'flex',
     flexWrap: 'wrap'
   },
   clearButton: {
-    marginTop: theme.spacing(1),
-    marginLeft: theme.spacing(1)
+    margin: 10
   }
 }));
 
@@ -160,40 +166,35 @@ export default function ErroLista(props) {
 
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="static" color="default">
-        <Toolbar className={classes.toolbar}>
-          <ComboBox
-            handleChange={handleChangeTipo}
-            value={tipo}
-            label="Tipo"
-            options={tipos}
-          />
-          <ComboBox
-            handleChange={handleChangeOrdem}
-            value={ordem}
-            label="Ordenar por"
-            options={ordens}
-          />
-          <ComboBox
-            handleChange={handleChangeBusca}
-            value={busca}
-            label="Buscar por"
-            options={buscas}
-          />
-          <Pesquisa onSearch={handleSearch} toClean={toClean}></Pesquisa>
-          <Button
-            variant="outlined"
-            color="primary"
-            ize="small"
-            className={classes.clearButton}
-            startIcon={<DeleteIcon />}
-            onClick={handleClearFilters}
-          >
-            Limpar
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <ComboBox
+        handleChange={handleChangeTipo}
+        value={tipo}
+        label="Tipo"
+        options={tipos}
+      />
+      <ComboBox
+        handleChange={handleChangeOrdem}
+        value={ordem}
+        label="Ordenar por"
+        options={ordens}
+      />
+      <ComboBox
+        handleChange={handleChangeBusca}
+        value={busca}
+        label="Buscar por"
+        options={buscas}
+      />
+      <Pesquisa onSearch={handleSearch} toClean={toClean}></Pesquisa>
+      <Button
+        variant="outlined"
+        color="primary"
+        ize="small"
+        className={classes.clearButton}
+        startIcon={<DeleteIcon />}
+        onClick={handleClearFilters}
+      >
+        Limpar
+      </Button>
     </div>
   );
 }

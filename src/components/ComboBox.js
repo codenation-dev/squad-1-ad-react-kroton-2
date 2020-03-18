@@ -7,15 +7,15 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120
+    marginRight: 3
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
     width: 150
   },
   componentWidth: {
-    flexGrow: 0
+    flexGrow: 0,
+    margin: 5
   }
 }));
 
