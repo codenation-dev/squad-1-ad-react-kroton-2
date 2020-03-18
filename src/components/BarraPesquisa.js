@@ -1,9 +1,6 @@
 import React from 'react';
 import ComboBox from '../components/ComboBox';
 import Pesquisa from '../components/Pesquisa';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
-import AppBar from '@material-ui/core/AppBar';
 import { makeStyles, Button } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
 
@@ -32,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function ErroLista(props) {
+export default function BarraPesquisa(props) {
   const classes = useStyles();
   const { setAlertas } = props;
 

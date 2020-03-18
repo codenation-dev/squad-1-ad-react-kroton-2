@@ -6,7 +6,7 @@ import { ReactComponent as Logo } from '../assets/logo_s_v_b.svg';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    // flexGrow: 1
   },
   menuButton: {
     marginRight: theme.spacing(2)
