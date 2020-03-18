@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
@@ -16,7 +16,6 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       backgroundColor: alerta.arquivado ? '#eee' : '#fff'
     }
   });
-
   const classes = useStyles();
   const [checked, setChecked] = React.useState(false);
 
@@ -29,6 +28,11 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       setCheckados(checkados.filter(x => x !== id));
     }
   };
+
+  useEffect(() => setChecked(checkados.some(checkId => checkId === id)), [
+    checkados,
+    id
+  ]);
 
   return (
     <TableRow className={classes.tableRow}>
