@@ -82,11 +82,10 @@ export default function ErroLista() {
       <BarraUsuario
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUsuario>
-
       {!isLoading && <CircularProgress />}
       {isLoading && (
         <>
-          <BarraPesquisa></BarraPesquisa>
+          <BarraPesquisa setAlertas={setAlertas}></BarraPesquisa>
           {alertas.length === 0 && <EmptyLista />}
           {alertas.length !== 0 && (
             <>

@@ -7,12 +7,15 @@ import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120
+    marginRight: 3
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
-    width: 150
+    width: '15ch'
+  },
+  componentWidth: {
+    flexGrow: 0,
+    margin: 5
   }
 }));
 
@@ -26,8 +29,8 @@ export default function SimpleSelect(props) {
   }, []);
 
   return (
-    <div>
-      <FormControl variant="outlined" className={classes.formControl}>
+    <div className={classes.componentWidth}>
+      <FormControl className={classes.formControl}>
         <InputLabel
           className={classes.selectEmpty}
           ref={inputLabel}
@@ -42,6 +45,7 @@ export default function SimpleSelect(props) {
           value={props.value}
           onChange={props.handleChange}
           labelWidth={labelWidth}
+          size="small"
         >
           <MenuItem value="">
             <em>{props.label}</em>

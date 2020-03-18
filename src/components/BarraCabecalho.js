@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
+  marginBar: {
+    marginTop: 10
+  },
   icon: {
     marginRight: theme.spacing(2)
   },
@@ -19,36 +22,34 @@ export default function BarraCabecalho(props) {
   const classes = useStyles();
 
   return (
-    <div>
+    <div className={classes.marginBar}>
       <CssBaseline />
 
-      <AppBar position="relative" color="default" elevation={1}>
-        <Toolbar>
-          <div
-            style={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+      {/* <AppBar position="relative" color="default" elevation={1}>
+        <Toolbar> */}
+      <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <div style={{ marginBottom: '20px' }}>
+          <Button
+            className={classes.submit}
+            variant="contained"
+            color="primary"
+            onClick={props.handleArquivar}
+            //onClick={}
           >
-            <div style={{ marginBottom: '20px' }}>
-              <Button
-                className={classes.submit}
-                variant="contained"
-                color="primary"
-                onClick={props.handleArquivar}
-                //onClick={}
-              >
-                Arquivar
-              </Button>
-              <Button
-                className={classes.submit}
-                variant="contained"
-                color="primary"
-                onClick={props.handleDeletar}
-              >
-                Apagar
-              </Button>
-            </div>
-          </div>
-        </Toolbar>
-      </AppBar>
+            Arquivar
+          </Button>
+          <Button
+            className={classes.submit}
+            variant="contained"
+            color="primary"
+            onClick={props.handleDeletar}
+          >
+            Apagar
+          </Button>
+        </div>
+      </div>
+      {/* </Toolbar>
+      </AppBar> */}
     </div>
   );
 }
