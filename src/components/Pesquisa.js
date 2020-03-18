@@ -11,7 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    minWidth: 400,
+    minWidth: '25ch',
     flexGrow: 1,
     margin: 4.5
   },

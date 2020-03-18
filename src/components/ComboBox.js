@@ -11,7 +11,7 @@ const useStyles = makeStyles(theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing(0),
-    width: 150
+    width: '15ch'
   },
   componentWidth: {
     flexGrow: 0,

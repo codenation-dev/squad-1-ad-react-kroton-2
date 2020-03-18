@@ -125,7 +125,6 @@ export default function BarraPesquisa(props) {
 
   const handleSearch = (value, event) => {
     event.preventDefault();
-    debugger;
 
     const result = buscas.filter(search => search.codigo === busca);
 
