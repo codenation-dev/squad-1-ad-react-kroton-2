@@ -50,8 +50,12 @@ Antes de fazer deploy, certifique de estar logado com o time `squad-1-ad-react-k
 now switch
 ```
 
-Quando no time, execute na raiz do projeto para efetuar o deploy:
+### Executando o deploy em produção
+
+Essa etapa já aplica o dominio https://trackerr.now.sh, então antes de fazer o deploy esteja na branch `master` atualizada.
+
+Execute na raiz do projeto para efetuar o deploy:
 
 ```sh
-now
+now --target production
 ```
