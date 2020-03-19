@@ -52,14 +52,16 @@ function AlertDescription(props) {
     const { uid } = firebase.auth().currentUser;
     const id = props.match.params.id;
 
-    getAlertById(uid, id).then(response => {
-      setAlert(response.data());
-      setId(id);
-      setUid(uid);
-      setArquivado(response.data().arquivado);
-      setIsLoading(true);
-    });
-  }, [props.match.params.id]);
+    getAlertById(uid, id)
+      .then(response => {
+        setAlert(response.data());
+        setId(id);
+        setUid(uid);
+        setArquivado(response.data().arquivado);
+        setIsLoading(true);
+      })
+      .catch(() => props.history.push('/'));
+  }, [props.history, props.match.params.id]);
 
   return (
     <div className={classes.flexScreen}>
