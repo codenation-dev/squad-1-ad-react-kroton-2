@@ -5,7 +5,6 @@ import { TableRow, TableCell, Checkbox } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
 
-
 export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   const useStyles = makeStyles({
     log: {
@@ -13,7 +12,9 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       flexDirection: 'column'
     },
     tableRow: {
-      backgroundColor: alerta.arquivado ? '#eee' : '#fff'
+      backgroundColor: alerta.arquivado ? '#f9f9f9' : '#fff',
+      fontStyle: alerta.arquivado ? 'italic' : 'normal',
+      textDecoration: alerta.arquivado ? 'line-through' : 'normal'
     }
   });
   const classes = useStyles();
@@ -47,7 +48,9 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       </TableCell>
 
       <TableCell align="center" className={classes.level}>
-        <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>{alerta.level.toUpperCase()}</Alert>
+        <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>
+          {alerta.level.toUpperCase()}
+        </Alert>
       </TableCell>
 
       <TableCell className={classes.log} align="center">
