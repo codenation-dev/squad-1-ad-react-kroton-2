@@ -28,7 +28,9 @@ export default function ErroLista() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [filters, setFilters] = useState({
     search: '',
-    searchBy: ''
+    searchBy: '',
+    orderBy: '',
+    type: ''
   });
 
   const handleArquivar = () => {
@@ -104,9 +106,30 @@ export default function ErroLista() {
     });
   };
 
-  const _filterAlertsBy = alertas => {
+  const handleOrderBy = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        orderBy: value
+      };
+    });
+  };
+
+  const handleType = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        type: value
+      };
+    });
+  };
+
+  const _filterAlertsBySearch = alertas => {
     if (!!filters.searchBy) {
-      console.log(filters);
       return (
         alertas
           .data()
@@ -118,12 +141,40 @@ export default function ErroLista() {
     return alertas.data();
   };
 
+  const _sortAlertsBy = (prevAlertas, alertas) => {
+    if (prevAlertas.data()[filters.orderBy] > alertas.data()[filters.orderBy]) {
+      return -1;
+    }
+
+    if (prevAlertas.data()[filters.orderBy] < alertas.data()[filters.orderBy]) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const _filterAlertsByType = alertas => {
+    console.log(alertas.data());
+    if (!!filters.type) {
+      return (
+        alertas
+          .data()
+          .ambiente.toLowerCase()
+          .indexOf(filters.type.toLowerCase()) > -1
+      );
+    }
+
+    return alertas.data();
+  };
+
   useEffect(() => {
     listaAlertas();
   }, []);
 
   const rowsPerPage = 10;
-  const alertsCount = alertas.filter(_filterAlertsBy).length;
+  const alertsCount = !!filters.search
+    ? alertas.filter(_filterAlertsBySearch).length
+    : alertas.length;
 
   return (
     <div>
@@ -137,8 +188,13 @@ export default function ErroLista() {
             setAlertas={setAlertas}
             handleSearch={handleSearch}
             handleSearchBy={handleSearchBy}
+            handleOrderBy={handleOrderBy}
+            handleType={handleType}
             searchBy={filters.searchBy}
+            orderBy={filters.orderBy}
+            type={filters.type}
             setFilters={setFilters}
+            listaAlertas={listaAlertas}
           ></BarraPesquisa>
           {alertas.length === 0 && <EmptyLista />}
           {alertas.length !== 0 && (
@@ -160,7 +216,9 @@ export default function ErroLista() {
                     </TableHead>
                     <TableBody>
                       {alertas
-                        .filter(_filterAlertsBy)
+                        .filter(_filterAlertsByType)
+                        .filter(_filterAlertsBySearch)
+                        .sort(_sortAlertsBy)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage
