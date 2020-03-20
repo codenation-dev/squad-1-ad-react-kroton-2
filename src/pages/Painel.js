@@ -26,6 +26,10 @@ export default function ErroLista() {
   const [checkados, setCheckados] = useState([]);
   const [page, setPage] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [filters, setFilters] = useState({
+    search: '',
+    searchBy: ''
+  });
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -78,11 +82,48 @@ export default function ErroLista() {
     setPage(newPage);
   };
 
+  const handleSearch = (value, event) => {
+    event.preventDefault();
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        search: value
+      };
+    });
+  };
+
+  const handleSearchBy = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        searchBy: value
+      };
+    });
+  };
+
+  const _filterAlertsBy = alertas => {
+    if (!!filters.searchBy) {
+      console.log(filters);
+      return (
+        alertas
+          .data()
+          [filters.searchBy].toLowerCase()
+          .indexOf(filters.search.toLowerCase()) > -1
+      );
+    }
+
+    return alertas.data();
+  };
+
   useEffect(() => {
     listaAlertas();
   }, []);
 
   const rowsPerPage = 10;
+  const alertsCount = alertas.filter(_filterAlertsBy).length;
 
   return (
     <div>
@@ -92,7 +133,13 @@ export default function ErroLista() {
       {!isLoading && <CircularProgress />}
       {isLoading && (
         <>
-          <BarraPesquisa setAlertas={setAlertas}></BarraPesquisa>
+          <BarraPesquisa
+            setAlertas={setAlertas}
+            handleSearch={handleSearch}
+            handleSearchBy={handleSearchBy}
+            searchBy={filters.searchBy}
+            setFilters={setFilters}
+          ></BarraPesquisa>
           {alertas.length === 0 && <EmptyLista />}
           {alertas.length !== 0 && (
             <>
@@ -113,6 +160,7 @@ export default function ErroLista() {
                     </TableHead>
                     <TableBody>
                       {alertas
+                        .filter(_filterAlertsBy)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage
@@ -134,7 +182,7 @@ export default function ErroLista() {
                         <TablePagination
                           rowsPerPageOptions={[10]}
                           rowsPerPage={rowsPerPage}
-                          count={alertas.length}
+                          count={alertsCount}
                           page={page}
                           onChangePage={handleChangePage}
                         />

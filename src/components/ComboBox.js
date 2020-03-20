@@ -52,7 +52,7 @@ export default function SimpleSelect(props) {
           </MenuItem>
           {props.options.map((option, index) => {
             return (
-              <MenuItem key={index} value={option.codigo}>
+              <MenuItem key={index} value={option.field}>
                 {option.descricao}
               </MenuItem>
             );
