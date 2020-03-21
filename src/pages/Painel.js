@@ -18,7 +18,8 @@ import {
   Container,
   TableFooter,
   TablePagination,
-  CircularProgress
+  CircularProgress,
+  Checkbox
 } from '@material-ui/core';
 
 export default function ErroLista() {
@@ -32,6 +33,7 @@ export default function ErroLista() {
     orderBy: '',
     type: ''
   });
+  const [checkAll, setCheckAll] = useState(false);
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -49,6 +51,8 @@ export default function ErroLista() {
         .collection('alertas')
         .doc(idAlerta)
         .delete();
+
+      setCheckAll(false);
       return setCheckados([]);
     } catch (error) {
       console.log(error);
@@ -63,6 +67,8 @@ export default function ErroLista() {
         .collection('alertas')
         .doc(idAlerta)
         .update({ arquivado: true });
+
+      setCheckAll(false);
       setCheckados([]);
     } catch (error) {
       console.log(error);
@@ -170,6 +176,18 @@ export default function ErroLista() {
     listaAlertas();
   }, []);
 
+  const handleCheckAll = event => {
+    if (event.target.checked) {
+      alertas.map(alerta => {
+        setCheckados(x => x.concat(alerta.id));
+      });
+      setCheckAll(true);
+    } else {
+      setCheckados([]);
+      setCheckAll(false);
+    }
+  };
+
   const rowsPerPage = 10;
   const alertsCount = alertas
     .filter(_filterAlertsByType)
@@ -209,7 +227,16 @@ export default function ErroLista() {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell />
+                        <TableCell align="center">
+                          {' '}
+                          <Checkbox
+                            checked={checkAll}
+                            onChange={handleCheckAll}
+                            value="primary"
+                            color="primary"
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </TableCell>
                         <TableCell align="center">Level</TableCell>
                         <TableCell align="center">Log</TableCell>
                         <TableCell align="center">Eventos</TableCell>
