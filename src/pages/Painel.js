@@ -6,6 +6,7 @@ import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
 import Alerta from '../components/Alerta';
 import EmptyLista from '../components/EmptyLista';
+import { withStyles } from '@material-ui/core/styles';
 import { db } from '../firebase/config';
 import {
   TableContainer,
@@ -20,6 +21,30 @@ import {
   TablePagination,
   CircularProgress
 } from '@material-ui/core';
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    backgroundColor: '#5d5d5d1f',
+    color: 'black',
+    padding: 10,
+    borderTop: '2px solid #1976d3',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default
+    }
+  }
+}))(TableRow);
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
@@ -199,19 +224,23 @@ export default function ErroLista() {
           {alertas.length === 0 && <EmptyLista />}
           {alertas.length !== 0 && (
             <>
-              <BarraCabecalho
-                handleArquivar={handleArquivar}
-                handleDeletar={handleDeletar}
-              ></BarraCabecalho>
               <Container>
+                <BarraCabecalho
+                  handleArquivar={handleArquivar}
+                  handleDeletar={handleDeletar}
+                ></BarraCabecalho>
                 <TableContainer component={Paper} style={{ marginTop: '10px' }}>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell />
-                        <TableCell align="center">Level</TableCell>
-                        <TableCell align="center">Log</TableCell>
-                        <TableCell align="center">Eventos</TableCell>
+                        <StyledTableCell
+                          style={{ width: '20px', padding: 0 }}
+                        />
+                        <StyledTableCell align="center">Level</StyledTableCell>
+                        <StyledTableCell align="center">Log</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Eventos
+                        </StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>

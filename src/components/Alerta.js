@@ -2,8 +2,25 @@ import React, { useEffect } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
+
+const StyledTableCell = withStyles(theme => ({
+  body: {
+    fontSize: 14,
+    padding: 2,
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  }
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default
+    }
+  }
+}))(TableRow);
 
 export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   const useStyles = makeStyles({
@@ -36,8 +53,8 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   ]);
 
   return (
-    <TableRow className={classes.tableRow}>
-      <TableCell align="center">
+    <StyledTableRow className={classes.tableRow}>
+      <StyledTableCell align="center">
         <Checkbox
           checked={checked}
           onChange={handleChangeCheck}
@@ -45,15 +62,19 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
           color="primary"
           inputProps={{ 'aria-label': 'primary checkbox' }}
         />
-      </TableCell>
+      </StyledTableCell>
 
-      <TableCell align="center" className={classes.level}>
+      <StyledTableCell
+        align="center"
+        className={classes.level}
+        style={{ width: '200px' }}
+      >
         <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>
           {alerta.level.toUpperCase()}
         </Alert>
-      </TableCell>
+      </StyledTableCell>
 
-      <TableCell className={classes.log} align="center">
+      <StyledTableCell className={classes.log} align="center">
         <Link to={`/alert/${id}`}>{alerta.descricao}</Link>
         <span>{alerta.origem}</span>
         <span>
@@ -61,9 +82,9 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
             {alerta.criadoEm.seconds}
           </Moment>
         </span>
-      </TableCell>
+      </StyledTableCell>
 
-      <TableCell align="center">{alerta.eventos}</TableCell>
-    </TableRow>
+      <StyledTableCell align="center">{alerta.eventos}</StyledTableCell>
+    </StyledTableRow>
   );
 }

@@ -1,9 +1,9 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import WorkIcon from '@material-ui/icons/Work';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const useStyles = makeStyles(theme => ({
   marginBar: {
@@ -13,8 +13,17 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   submit: {
-    margin: theme.spacing(3, 0, 2, 3),
-    width: '300px'
+    fontSize: '12px',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"',
+    margin: theme.spacing(1, 2, 0, 0)
+  },
+  buttonFlex: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  labelLeft: {
+    marginLeft: 6
   }
 }));
 
@@ -22,34 +31,30 @@ export default function BarraCabecalho(props) {
   const classes = useStyles();
 
   return (
-    <div className={classes.marginBar}>
+    <div>
       <CssBaseline />
-
-      {/* <AppBar position="relative" color="default" elevation={1}>
-        <Toolbar> */}
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <div style={{ marginBottom: '20px' }}>
+        <div>
           <Button
             className={classes.submit}
             variant="contained"
             color="primary"
             onClick={props.handleArquivar}
-            //onClick={}
+            startIcon={<WorkIcon />}
           >
             Arquivar
           </Button>
           <Button
             className={classes.submit}
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={props.handleDeletar}
+            startIcon={<DeleteIcon />}
           >
             Apagar
           </Button>
         </div>
       </div>
-      {/* </Toolbar>
-      </AppBar> */}
     </div>
   );
 }

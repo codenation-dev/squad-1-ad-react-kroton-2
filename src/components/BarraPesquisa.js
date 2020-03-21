@@ -1,8 +1,10 @@
 import React from 'react';
 import ComboBox from '../components/ComboBox';
 import Pesquisa from '../components/Pesquisa';
-import { makeStyles, Button } from '@material-ui/core/';
+import { makeStyles, Button, IconButton, Fab } from '@material-ui/core/';
 import DeleteIcon from '@material-ui/icons/Delete';
+import ClearIcon from '@material-ui/icons/Clear';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -77,16 +79,15 @@ export default function BarraPesquisa(props) {
         options={buscas}
       />
       <Pesquisa onSearch={props.handleSearch} toClean={toClean}></Pesquisa>
-      <Button
+
+      <IconButton
         variant="outlined"
-        color="primary"
-        ize="small"
+        color="secondary"
         className={classes.clearButton}
-        startIcon={<DeleteIcon />}
         onClick={handleClearFilters}
       >
-        Limpar
-      </Button>
+        <HighlightOffIcon />
+      </IconButton>
     </div>
   );
 }
