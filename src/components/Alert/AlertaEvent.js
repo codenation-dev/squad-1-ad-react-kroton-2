@@ -27,7 +27,8 @@ export default function AlertaEvent({
   severity,
   description,
   eventos,
-  coletadoPor
+  coletadoPor,
+  ambiente
 }) {
   const classes = useStyles();
   return (
@@ -36,6 +37,12 @@ export default function AlertaEvent({
         <CardContent>
           <div>
             <Alert severity={severity}>{description}</Alert>
+          </div>
+          <div className={classes.event}>
+            <Typography variant="h5" className={classes.fontTitle}>
+              Ambiente
+            </Typography>
+            <p>{ambiente}</p>
           </div>
           <div className={classes.event}>
             <Typography variant="h5" className={classes.fontTitle}>

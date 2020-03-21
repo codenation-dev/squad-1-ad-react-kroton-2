@@ -11,7 +11,8 @@ import BarraUsuario from '../components/BarraUsuario';
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: 30,
-    padding: 30
+    padding: 30,
+    position: 'relative'
   },
   flexScreen: {
     display: 'flex',
@@ -70,17 +71,24 @@ function AlertDescription(props) {
       <div className={classes.box}>
         <div className={classes.fillContent}>
           <Paper className={classes.paper}>
-            {!isLoading && <CircularProgress />}
+            {!isLoading && (
+              <CircularProgress style={{ marginLeft: '50%' }} left={-20} />
+            )}
             {isLoading && (
               <div>
                 <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
                 <Box display="flex" flexDirection="row">
-                  <AlertaBody title={alert.titulo} details={alert.detalhes} />
+                  <AlertaBody
+                    title={alert.titulo}
+                    details={alert.detalhes}
+                    descricao={alert.descricao}
+                  />
                   <AlertaEvent
                     severity={alert.level === 'debug' ? 'info' : alert.level}
                     description={alert.level.toUpperCase()}
                     eventos={alert.eventos}
                     coletadoPor={alert.coletadoPor}
+                    ambiente={alert.ambiente}
                   />
                 </Box>
               </div>
