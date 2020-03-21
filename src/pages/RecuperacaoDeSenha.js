@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Paper, Button, Typography, TextField } from '@material-ui/core';
+import { Paper, Typography, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app';
 
 import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
+import LoadingButton from '../components/LoadingButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,9 +41,6 @@ const useStyles = makeStyles(theme => ({
     height: 50,
     marginBottom: 5
   },
-  buttonMargin: {
-    marginTop: 30
-  },
   alertRed: {
     color: '#de1414'
   },
@@ -57,10 +55,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function RecuperacaoDeSenha() {
-  const [email, setEmail] = React.useState('');
-  const [message, setMessage] = React.useState('');
-  const [showMessage, setShowMessage] = React.useState(false);
-  const [severity, setSeverity] = React.useState('error');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [showMessage, setShowMessage] = useState(false);
+  const [severity, setSeverity] = useState('error');
+  const [isLoading, setIsLoading] = useState(false);
   const classes = useStyles();
 
   const alertClass =
@@ -68,6 +67,7 @@ function RecuperacaoDeSenha() {
 
   async function resetPassword() {
     if (email) {
+      await setIsLoading(true);
       await firebase
         .auth()
         .sendPasswordResetEmail(email)
@@ -77,11 +77,13 @@ function RecuperacaoDeSenha() {
           setMessage(
             'Um e-mail de redefinição de senha foi enviado para o endereço de e-mail fornecido.'
           );
+          setIsLoading(false);
         })
         .catch(function(error) {
           setShowMessage(true);
           setSeverity('error');
           setMessage(errors[error.code] ? errors[error.code] : error.message);
+          setIsLoading(false);
         });
     }
   }
@@ -111,15 +113,9 @@ function RecuperacaoDeSenha() {
             </div>
           </>
         )}
-        <Button
-          className={classes.buttonMargin}
-          variant="contained"
-          color="primary"
-          onClick={resetPassword}
-          fullWidth
-        >
+        <LoadingButton isLoading={isLoading} onClick={resetPassword}>
           Enviar
-        </Button>
+        </LoadingButton>
         <div className={classes.returnLogin}>
           <Link to="/login">
             <small>Retornar ao Login</small>
