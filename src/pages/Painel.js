@@ -154,7 +154,6 @@ export default function ErroLista() {
   };
 
   const _filterAlertsByType = alertas => {
-    console.log(alertas.data());
     if (!!filters.type) {
       return (
         alertas
@@ -181,7 +180,9 @@ export default function ErroLista() {
       <BarraUsuario
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUsuario>
-      {!isLoading && <CircularProgress />}
+      {!isLoading && (
+        <CircularProgress style={{ marginLeft: '50%' }} left={-20} />
+      )}
       {isLoading && (
         <>
           <BarraPesquisa

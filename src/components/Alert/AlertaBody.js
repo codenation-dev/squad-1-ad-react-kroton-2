@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   }
 }));
-export default function AlertaBody({ title, details }) {
+export default function AlertaBody({ title, details, descricao }) {
   const classes = useStyles();
   return (
     <>
@@ -28,6 +28,13 @@ export default function AlertaBody({ title, details }) {
             Título
           </Typography>
           <p>{title}</p>
+        </div>
+        <Divider />
+        <div className={classes.divPadding}>
+          <Typography variant="h5" className={classes.fontTitle}>
+            Descrição
+          </Typography>
+          <p>{descricao}</p>
         </div>
         <Divider />
         <div className={classes.divPadding}>
