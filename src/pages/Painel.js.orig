@@ -237,6 +237,7 @@ export default function ErroLista() {
             {alertas.length === 0 && <EmptyLista />}
             {alertas.length !== 0 && (
               <>
+                {/* <Container> */}
                 <BarraCabecalho
                   handleArquivar={handleArquivar}
                   handleDeletar={handleDeletar}
@@ -245,19 +246,10 @@ export default function ErroLista() {
                   <Table>
                     <TableHead>
                       <TableRow>
+<<<<<<< HEAD
                         <StyledTableCell
                           style={{ width: '20px', padding: 0 }}
-                          align="center"
-                        >
-                          {' '}
-                          <Checkbox
-                            checked={checkAll}
-                            onChange={handleCheckAll}
-                            value="primary"
-                            color="primary"
-                            inputProps={{ 'aria-label': 'primary checkbox' }}
-                          />
-                        </StyledTableCell>
+                        />
                         <StyledTableCell align="center">Level</StyledTableCell>
                         <StyledTableCell align="center">
                           Descrição
@@ -267,6 +259,21 @@ export default function ErroLista() {
                         <StyledTableCell align="center">
                           Eventos
                         </StyledTableCell>
+=======
+                        <TableCell align="center">
+                          {' '}
+                          <Checkbox
+                            checked={checkAll}
+                            onChange={handleCheckAll}
+                            value="primary"
+                            color="primary"
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </TableCell>
+                        <TableCell align="center">Level</TableCell>
+                        <TableCell align="center">Log</TableCell>
+                        <TableCell align="center">Eventos</TableCell>
+>>>>>>> master
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -303,6 +310,7 @@ export default function ErroLista() {
                     </TableFooter>
                   </Table>
                 </TableContainer>
+                {/* </Container> */}
               </>
             )}
           </Container>
