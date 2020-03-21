@@ -183,9 +183,7 @@ export default function ErroLista() {
       });
       setCheckAll(true);
     } else {
-      alertas.map((alerta, index) => {
-        setCheckados([]);
-      });
+      setCheckados([]);
       setCheckAll(false);
     }
   };
