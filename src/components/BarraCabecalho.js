@@ -33,7 +33,13 @@ export default function BarraCabecalho(props) {
   return (
     <div>
       <CssBaseline />
-      <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%'
+        }}
+      >
         <div>
           <Button
             className={classes.submit}

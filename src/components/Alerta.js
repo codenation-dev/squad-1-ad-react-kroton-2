@@ -3,7 +3,8 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { Alert } from '@material-ui/lab';
+import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
 
 const StyledTableCell = withStyles(theme => ({
   body: {
@@ -34,9 +35,12 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       textDecoration: alerta.arquivado ? 'line-through' : 'normal'
     },
     alert: {
-      width: '120px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
       fontSize: '10px',
-      padding: '5px 10px'
+      fontWeight: 'bold',
+      color: alerta.level === 'debug' ? '#2196f3' : '#ff9700'
     }
   });
   const classes = useStyles();
@@ -74,17 +78,25 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
         className={classes.level}
         style={{ width: '10%' }}
       >
-        <Alert
+        <div className={classes.alert}>
+          {alerta.level === 'debug' ? <InfoIcon /> : <WarningIcon />}
+          {alerta.level.toUpperCase()}
+        </div>
+        {/* <Alert
           severity={alerta.level === 'debug' ? 'info' : alerta.level}
           className={classes.alert}
         >
           {alerta.level.toUpperCase()}
-        </Alert>
+        </Alert> */}
       </StyledTableCell>
 
-      <StyledTableCell className={classes.log} align="center">
+      <StyledTableCell align="center">
         <Link to={`/alert/${id}`}>{alerta.descricao}</Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">
         <span>{alerta.origem}</span>
+      </StyledTableCell>
+      <StyledTableCell align="center">
         <span>
           <Moment unix format="DD/MM/YYYY HH:mm">
             {alerta.criadoEm.seconds}

@@ -24,6 +24,7 @@ import {
 
 const StyledTableCell = withStyles(theme => ({
   head: {
+    fontSize: 12,
     textTransform: 'uppercase',
     fontWeight: 'bold',
     backgroundColor: '#5d5d5d1f',
@@ -37,14 +38,6 @@ const StyledTableCell = withStyles(theme => ({
     fontSize: 14
   }
 }))(TableCell);
-
-const StyledTableRow = withStyles(theme => ({
-  root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.background.default
-    }
-  }
-}))(TableRow);
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
@@ -210,22 +203,23 @@ export default function ErroLista() {
       )}
       {isLoading && (
         <>
-          <BarraPesquisa
-            setAlertas={setAlertas}
-            handleSearch={handleSearch}
-            handleSearchBy={handleSearchBy}
-            handleOrderBy={handleOrderBy}
-            handleType={handleType}
-            searchBy={filters.searchBy}
-            orderBy={filters.orderBy}
-            type={filters.type}
-            setFilters={setFilters}
-            listaAlertas={listaAlertas}
-          ></BarraPesquisa>
-          {alertas.length === 0 && <EmptyLista />}
-          {alertas.length !== 0 && (
-            <>
-              <Container>
+          <Container>
+            <BarraPesquisa
+              setAlertas={setAlertas}
+              handleSearch={handleSearch}
+              handleSearchBy={handleSearchBy}
+              handleOrderBy={handleOrderBy}
+              handleType={handleType}
+              searchBy={filters.searchBy}
+              orderBy={filters.orderBy}
+              type={filters.type}
+              setFilters={setFilters}
+              listaAlertas={listaAlertas}
+            ></BarraPesquisa>
+            {alertas.length === 0 && <EmptyLista />}
+            {alertas.length !== 0 && (
+              <>
+                {/* <Container> */}
                 <BarraCabecalho
                   handleArquivar={handleArquivar}
                   handleDeletar={handleDeletar}
@@ -238,7 +232,11 @@ export default function ErroLista() {
                           style={{ width: '20px', padding: 0 }}
                         />
                         <StyledTableCell align="center">Level</StyledTableCell>
-                        <StyledTableCell align="center">Log</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Descrição
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Origem</StyledTableCell>
+                        <StyledTableCell align="center">Data</StyledTableCell>
                         <StyledTableCell align="center">
                           Eventos
                         </StyledTableCell>
@@ -278,9 +276,10 @@ export default function ErroLista() {
                     </TableFooter>
                   </Table>
                 </TableContainer>
-              </Container>
-            </>
-          )}
+                {/* </Container> */}
+              </>
+            )}
+          </Container>
         </>
       )}
     </div>
