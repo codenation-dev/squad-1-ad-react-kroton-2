@@ -172,9 +172,9 @@ export default function ErroLista() {
   }, []);
 
   const rowsPerPage = 10;
-  const alertsCount = !!filters.search
-    ? alertas.filter(_filterAlertsBySearch).length
-    : alertas.length;
+  const alertsCount = alertas
+    .filter(_filterAlertsByType)
+    .filter(_filterAlertsBySearch).length;
 
   return (
     <div>
