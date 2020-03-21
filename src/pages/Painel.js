@@ -26,6 +26,12 @@ export default function ErroLista() {
   const [checkados, setCheckados] = useState([]);
   const [page, setPage] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [filters, setFilters] = useState({
+    search: '',
+    searchBy: '',
+    orderBy: '',
+    type: ''
+  });
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -78,11 +84,97 @@ export default function ErroLista() {
     setPage(newPage);
   };
 
+  const handleSearch = (value, event) => {
+    event.preventDefault();
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        search: value
+      };
+    });
+  };
+
+  const handleSearchBy = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        searchBy: value
+      };
+    });
+  };
+
+  const handleOrderBy = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        orderBy: value
+      };
+    });
+  };
+
+  const handleType = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        type: value
+      };
+    });
+  };
+
+  const _filterAlertsBySearch = alertas => {
+    if (!!filters.searchBy) {
+      return (
+        alertas
+          .data()
+          [filters.searchBy].toLowerCase()
+          .indexOf(filters.search.toLowerCase()) > -1
+      );
+    }
+
+    return alertas.data();
+  };
+
+  const _sortAlertsBy = (prevAlertas, alertas) => {
+    if (prevAlertas.data()[filters.orderBy] > alertas.data()[filters.orderBy]) {
+      return -1;
+    }
+
+    if (prevAlertas.data()[filters.orderBy] < alertas.data()[filters.orderBy]) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const _filterAlertsByType = alertas => {
+    console.log(alertas.data());
+    if (!!filters.type) {
+      return (
+        alertas
+          .data()
+          .ambiente.toLowerCase()
+          .indexOf(filters.type.toLowerCase()) > -1
+      );
+    }
+
+    return alertas.data();
+  };
+
   useEffect(() => {
     listaAlertas();
   }, []);
 
   const rowsPerPage = 10;
+  const alertsCount = alertas
+    .filter(_filterAlertsByType)
+    .filter(_filterAlertsBySearch).length;
 
   return (
     <div>
@@ -92,7 +184,18 @@ export default function ErroLista() {
       {!isLoading && <CircularProgress />}
       {isLoading && (
         <>
-          <BarraPesquisa setAlertas={setAlertas}></BarraPesquisa>
+          <BarraPesquisa
+            setAlertas={setAlertas}
+            handleSearch={handleSearch}
+            handleSearchBy={handleSearchBy}
+            handleOrderBy={handleOrderBy}
+            handleType={handleType}
+            searchBy={filters.searchBy}
+            orderBy={filters.orderBy}
+            type={filters.type}
+            setFilters={setFilters}
+            listaAlertas={listaAlertas}
+          ></BarraPesquisa>
           {alertas.length === 0 && <EmptyLista />}
           {alertas.length !== 0 && (
             <>
@@ -113,6 +216,9 @@ export default function ErroLista() {
                     </TableHead>
                     <TableBody>
                       {alertas
+                        .filter(_filterAlertsByType)
+                        .filter(_filterAlertsBySearch)
+                        .sort(_sortAlertsBy)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage
@@ -134,7 +240,7 @@ export default function ErroLista() {
                         <TablePagination
                           rowsPerPageOptions={[10]}
                           rowsPerPage={rowsPerPage}
-                          count={alertas.length}
+                          count={alertsCount}
                           page={page}
                           onChangePage={handleChangePage}
                         />
