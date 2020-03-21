@@ -5,6 +5,7 @@ import { TableRow, TableCell, Checkbox } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
+import ErrorIcon from '@material-ui/icons/Error';
 
 const StyledTableCell = withStyles(theme => ({
   body: {
@@ -40,7 +41,12 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       alignItems: 'center',
       fontSize: '10px',
       fontWeight: 'bold',
-      color: alerta.level === 'debug' ? '#2196f3' : '#ff9700'
+      color:
+        alerta.level === 'debug'
+          ? '#2196f3'
+          : alerta.level === 'warning'
+          ? '#ff9700'
+          : '#F50057'
     }
   });
   const classes = useStyles();
@@ -79,15 +85,15 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
         style={{ width: '10%' }}
       >
         <div className={classes.alert}>
-          {alerta.level === 'debug' ? <InfoIcon /> : <WarningIcon />}
+          {alerta.level === 'debug' ? (
+            <InfoIcon />
+          ) : alerta.level === 'warning' ? (
+            <WarningIcon />
+          ) : (
+            <ErrorIcon />
+          )}
           {alerta.level.toUpperCase()}
         </div>
-        {/* <Alert
-          severity={alerta.level === 'debug' ? 'info' : alerta.level}
-          className={classes.alert}
-        >
-          {alerta.level.toUpperCase()}
-        </Alert> */}
       </StyledTableCell>
 
       <StyledTableCell align="center">
