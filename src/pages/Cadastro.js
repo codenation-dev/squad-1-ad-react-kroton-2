@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, TextField, Typography, Paper } from '@material-ui/core';
+import { TextField, Typography, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import * as firebase from 'firebase/app';
 
+import LoadingButton from '../components/LoadingButton';
 import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
 
@@ -28,9 +29,6 @@ const useStyles = makeStyles(theme => ({
     marginTop: '40px',
     marginBottom: '20px'
   },
-  buttonMargin: {
-    marginTop: 30
-  },
   textMargin: {
     marginBottom: 20
   },
@@ -51,19 +49,22 @@ export default function Cadastro({ history }) {
   const [password, setPassword] = useState('');
   const [alerta, setAlerta] = useState(false);
   const [erro, setErro] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   async function createAccount(event) {
     event.preventDefault();
-
+    setIsLoading(true);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(response => {
         history.push('/');
+        setIsLoading(false);
       })
       .catch(error => {
         setErro(errors[error.code] ? errors[error.code] : error.message);
         setAlerta(true);
+        setIsLoading(false);
       });
   }
 
@@ -103,16 +104,9 @@ export default function Cadastro({ history }) {
 
           {alerta && <small className={classes.alert}>{erro}</small>}
 
-          <Button
-            className={classes.buttonMargin}
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            disableElevation
-          >
+          <LoadingButton isLoading={isLoading} type="submit">
             Cadastrar
-          </Button>
+          </LoadingButton>
         </form>
         <div className={classes.returnLogin}>
           <Link to="/login">

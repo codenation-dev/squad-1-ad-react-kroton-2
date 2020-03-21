@@ -1,7 +1,5 @@
 import React from 'react';
-import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
@@ -24,9 +22,6 @@ export default function BarraCabecalho(props) {
   return (
     <div className={classes.marginBar}>
       <CssBaseline />
-
-      {/* <AppBar position="relative" color="default" elevation={1}>
-        <Toolbar> */}
       <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
         <div style={{ marginBottom: '20px' }}>
           <Button
@@ -34,7 +29,6 @@ export default function BarraCabecalho(props) {
             variant="contained"
             color="primary"
             onClick={props.handleArquivar}
-            //onClick={}
           >
             Arquivar
           </Button>
@@ -48,8 +42,6 @@ export default function BarraCabecalho(props) {
           </Button>
         </div>
       </div>
-      {/* </Toolbar>
-      </AppBar> */}
     </div>
   );
 }
