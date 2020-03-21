@@ -154,7 +154,6 @@ export default function ErroLista() {
   };
 
   const _filterAlertsByType = alertas => {
-    console.log(alertas.data());
     if (!!filters.type) {
       return (
         alertas

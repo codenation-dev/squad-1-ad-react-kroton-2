@@ -15,6 +15,11 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       backgroundColor: alerta.arquivado ? '#f9f9f9' : '#fff',
       fontStyle: alerta.arquivado ? 'italic' : 'normal',
       textDecoration: alerta.arquivado ? 'line-through' : 'normal'
+    },
+    alert: {
+      width: '120px',
+      fontSize: '10px',
+      padding: '5px 10px'
     }
   });
   const classes = useStyles();
@@ -37,7 +42,7 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
 
   return (
     <TableRow className={classes.tableRow}>
-      <TableCell align="center">
+      <TableCell align="center" padding="checkbox">
         <Checkbox
           checked={checked}
           onChange={handleChangeCheck}
@@ -47,8 +52,15 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
         />
       </TableCell>
 
-      <TableCell align="center" className={classes.level}>
-        <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>
+      <TableCell
+        align="center"
+        className={classes.level}
+        style={{ width: '10%' }}
+      >
+        <Alert
+          severity={alerta.level === 'debug' ? 'info' : alerta.level}
+          className={classes.alert}
+        >
           {alerta.level.toUpperCase()}
         </Alert>
       </TableCell>
