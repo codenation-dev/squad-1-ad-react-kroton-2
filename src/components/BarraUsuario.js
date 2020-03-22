@@ -1,8 +1,15 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  IconButton,
+  Tooltip
+} from '@material-ui/core';
 import * as firebase from 'firebase/app';
 import { ReactComponent as Logo } from '../assets/logo_s_v_b.svg';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,9 +19,12 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(2)
   },
   title: {
-    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
     flexGrow: 1,
-    fontSize: '15px'
+    fontSize: '15px',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '12px'
+    }
   },
   link: {
     margin: theme.spacing(1, 1.5),
@@ -22,6 +32,12 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       borderColor: 'white'
     }
+  },
+  logo: {
+    minWidth: '100px'
+  },
+  colorLogout: {
+    color: '#fff'
   }
 }));
 
@@ -36,19 +52,25 @@ export default function BarraUsuario(props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Logo />
-          <Typography variant="h6" className={classes.title}>
-            {props.texto}
-          </Typography>
+          <Logo className={classes.logo} />
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+              flexGrow: 1
+            }}
+          >
+            <Typography variant="h6" className={classes.title}>
+              {props.texto}
+            </Typography>
+          </div>
           <nav>
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={handleSignOut}
-              className={classes.link}
-            >
-              Logout
-            </Button>
+            <Tooltip title="Logout" aria-label="Logout">
+              <IconButton onClick={handleSignOut}>
+                <ExitToAppIcon className={classes.colorLogout} />
+              </IconButton>
+            </Tooltip>
           </nav>
         </Toolbar>
       </AppBar>

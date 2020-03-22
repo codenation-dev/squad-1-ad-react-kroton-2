@@ -1,19 +1,19 @@
 import React from 'react';
 import ComboBox from '../components/ComboBox';
 import Pesquisa from '../components/Pesquisa';
-import { makeStyles, Button } from '@material-ui/core/';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { makeStyles, IconButton, Tooltip } from '@material-ui/core/';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    backgroundColor: '#e3e3e3',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 5,
-    paddingBottom: 5
+    backgroundColor: '#ebebeb',
+    padding: '0 10px',
+    borderRadius: '4px',
+    marginTop: '10px',
+    border: '1px solid #ddd'
   },
   toolbar: {
     display: 'flex',
@@ -76,17 +76,19 @@ export default function BarraPesquisa(props) {
         label="Buscar por"
         options={buscas}
       />
-      <Pesquisa onSearch={props.handleSearch} toClean={toClean}></Pesquisa>
-      <Button
-        variant="outlined"
-        color="primary"
-        ize="small"
-        className={classes.clearButton}
-        startIcon={<DeleteIcon />}
-        onClick={handleClearFilters}
-      >
-        Limpar
-      </Button>
+      <div style={{ display: 'flex', flexGrow: 1 }}>
+        <Pesquisa onSearch={props.handleSearch} toClean={toClean}></Pesquisa>
+        <Tooltip title="Limpar Filtros" aria-label="Limpar filtros">
+          <IconButton
+            variant="outlined"
+            color="secondary"
+            className={classes.clearButton}
+            onClick={handleClearFilters}
+          >
+            <HighlightOffIcon />
+          </IconButton>
+        </Tooltip>
+      </div>
     </div>
   );
 }
