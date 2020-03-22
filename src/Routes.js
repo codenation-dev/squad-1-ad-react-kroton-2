@@ -9,6 +9,7 @@ import Cadastro from './pages/Cadastro';
 import Painel from './pages/Painel';
 import AlertDescription from './pages/AlertDescription';
 import NaoEncontrado from './pages/NaoEncontrado';
+import CadastraAlerta from './pages/CadastraAlerta';
 
 const PrivateRoute = ({ component, isAuthenticated, ...rest }) => (
   <Route
@@ -66,6 +67,12 @@ function Routes() {
         path="/recuperacao-de-senha"
         isAuthenticated={isAuthenticated}
         component={RecuperacaoDeSenha}
+      />
+      <PrivateRoute
+        exact
+        path="/cadastraAlerta"
+        isAuthenticated={isAuthenticated}
+        component={CadastraAlerta}
       />
       <PrivateRoute
         exact
