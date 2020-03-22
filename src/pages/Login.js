@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { Paper, Typography, TextField, Button } from '@material-ui/core';
+import { Paper, Typography, TextField } from '@material-ui/core';
 import * as firebase from 'firebase/app';
 
+import LoadingButton from '../components/LoadingButton';
 import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
 
@@ -35,9 +36,6 @@ const useStyles = makeStyles(theme => ({
   alert: {
     color: '#de1414'
   },
-  buttonMargin: {
-    marginTop: 30
-  },
   forgotPass: {
     display: 'flex',
     justifyContent: 'center',
@@ -52,21 +50,25 @@ function Login({ history }) {
   const [errorEmail, setErrorEmail] = useState(false);
   const [errorPassword, setErrorPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   function validateLogin(event) {
     event.preventDefault();
     setErrorPassword(false);
     setErrorEmail(false);
+    setIsLoading(true);
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(response => {
         history.push('/');
+        setIsLoading(false);
       })
       .catch(error => {
         const errorCode = error.code;
         setErrorMessage(errors[errorCode] ? errors[errorCode] : error.message);
+        setIsLoading(false);
 
         if (errorCode === 'auth/wrong-password') {
           setErrorPassword(true);
@@ -115,16 +117,9 @@ function Login({ history }) {
               <small className={classes.alert}>{errorMessage}</small>
             )}
           </div>
-          <Button
-            className={classes.buttonMargin}
-            type="submit"
-            variant="contained"
-            color="primary"
-            fullWidth
-            disableElevation
-          >
+          <LoadingButton type="submit" isLoading={isLoading}>
             Login
-          </Button>
+          </LoadingButton>
           <div className={classes.forgotPass}>
             <Link to="/recuperacao-de-senha">
               <small>Esqueceu a senha?</small>

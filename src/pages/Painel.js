@@ -6,6 +6,7 @@ import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
 import Alerta from '../components/Alerta';
 import EmptyLista from '../components/EmptyLista';
+import { withStyles } from '@material-ui/core/styles';
 import { db } from '../firebase/config';
 import {
   TableContainer,
@@ -18,14 +19,39 @@ import {
   Container,
   TableFooter,
   TablePagination,
-  CircularProgress
+  CircularProgress,
+  Checkbox
 } from '@material-ui/core';
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    backgroundColor: '#5d5d5d1f',
+    color: 'black',
+    padding: 10,
+    borderTop: '2px solid #1976d3',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
   const [checkados, setCheckados] = useState([]);
   const [page, setPage] = React.useState(0);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [filters, setFilters] = useState({
+    search: '',
+    searchBy: '',
+    orderBy: '',
+    type: ''
+  });
+  const [checkAll, setCheckAll] = useState(false);
 
   const handleArquivar = () => {
     checkados.map(item => arquivar(firebase.auth().currentUser.uid, item));
@@ -43,6 +69,8 @@ export default function ErroLista() {
         .collection('alertas')
         .doc(idAlerta)
         .delete();
+
+      setCheckAll(false);
       return setCheckados([]);
     } catch (error) {
       console.log(error);
@@ -57,6 +85,8 @@ export default function ErroLista() {
         .collection('alertas')
         .doc(idAlerta)
         .update({ arquivado: true });
+
+      setCheckAll(false);
       setCheckados([]);
     } catch (error) {
       console.log(error);
@@ -78,41 +108,172 @@ export default function ErroLista() {
     setPage(newPage);
   };
 
+  const handleSearch = (value, event) => {
+    event.preventDefault();
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        search: value
+      };
+    });
+  };
+
+  const handleSearchBy = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        searchBy: value
+      };
+    });
+  };
+
+  const handleOrderBy = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        orderBy: value
+      };
+    });
+  };
+
+  const handleType = event => {
+    const { value } = event.target;
+
+    setFilters(prevState => {
+      return {
+        ...prevState,
+        type: value
+      };
+    });
+  };
+
+  const _filterAlertsBySearch = alertas => {
+    if (!!filters.searchBy) {
+      return (
+        alertas
+          .data()
+          [filters.searchBy].toLowerCase()
+          .indexOf(filters.search.toLowerCase()) > -1
+      );
+    }
+
+    return alertas.data();
+  };
+
+  const _sortAlertsBy = (prevAlertas, alertas) => {
+    if (prevAlertas.data()[filters.orderBy] > alertas.data()[filters.orderBy]) {
+      return -1;
+    }
+
+    if (prevAlertas.data()[filters.orderBy] < alertas.data()[filters.orderBy]) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const _filterAlertsByType = alertas => {
+    if (!!filters.type) {
+      return (
+        alertas
+          .data()
+          .ambiente.toLowerCase()
+          .indexOf(filters.type.toLowerCase()) > -1
+      );
+    }
+
+    return alertas.data();
+  };
+
   useEffect(() => {
     listaAlertas();
   }, []);
 
+  const handleCheckAll = event => {
+    if (event.target.checked) {
+      alertas.map(alerta => {
+        setCheckados(x => x.concat(alerta.id));
+      });
+      setCheckAll(true);
+    } else {
+      setCheckados([]);
+      setCheckAll(false);
+    }
+  };
+
   const rowsPerPage = 10;
+  const alertsCount = alertas
+    .filter(_filterAlertsByType)
+    .filter(_filterAlertsBySearch).length;
 
   return (
     <div>
       <BarraUsuario
         texto={`Bem vindo ${firebase.auth().currentUser.email}`}
       ></BarraUsuario>
-      {!isLoading && <CircularProgress />}
+      {!isLoading && (
+        <CircularProgress style={{ marginLeft: '50%' }} left={-20} />
+      )}
       {isLoading && (
         <>
-          <BarraPesquisa setAlertas={setAlertas}></BarraPesquisa>
-          {alertas.length === 0 && <EmptyLista />}
-          {alertas.length !== 0 && (
-            <>
-              <BarraCabecalho
-                handleArquivar={handleArquivar}
-                handleDeletar={handleDeletar}
-              ></BarraCabecalho>
-              <Container>
+          <Container>
+            <BarraPesquisa
+              setAlertas={setAlertas}
+              handleSearch={handleSearch}
+              handleSearchBy={handleSearchBy}
+              handleOrderBy={handleOrderBy}
+              handleType={handleType}
+              searchBy={filters.searchBy}
+              orderBy={filters.orderBy}
+              type={filters.type}
+              setFilters={setFilters}
+              listaAlertas={listaAlertas}
+            ></BarraPesquisa>
+            {alertas.length === 0 && <EmptyLista />}
+            {alertas.length !== 0 && (
+              <>
+                <BarraCabecalho
+                  handleArquivar={handleArquivar}
+                  handleDeletar={handleDeletar}
+                ></BarraCabecalho>
                 <TableContainer component={Paper} style={{ marginTop: '10px' }}>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell />
-                        <TableCell align="center">Level</TableCell>
-                        <TableCell align="center">Log</TableCell>
-                        <TableCell align="center">Eventos</TableCell>
+                        <StyledTableCell
+                          style={{ width: '20px', padding: 0 }}
+                          align="center"
+                        >
+                          {' '}
+                          <Checkbox
+                            checked={checkAll}
+                            onChange={handleCheckAll}
+                            value="primary"
+                            color="primary"
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                          />
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Level</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Descrição
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Origem</StyledTableCell>
+                        <StyledTableCell align="center">Data</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Eventos
+                        </StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {alertas
+                        .filter(_filterAlertsByType)
+                        .filter(_filterAlertsBySearch)
+                        .sort(_sortAlertsBy)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage
@@ -134,7 +295,7 @@ export default function ErroLista() {
                         <TablePagination
                           rowsPerPageOptions={[10]}
                           rowsPerPage={rowsPerPage}
-                          count={alertas.length}
+                          count={alertsCount}
                           page={page}
                           onChangePage={handleChangePage}
                         />
@@ -142,9 +303,9 @@ export default function ErroLista() {
                     </TableFooter>
                   </Table>
                 </TableContainer>
-              </Container>
-            </>
-          )}
+              </>
+            )}
+          </Container>
         </>
       )}
     </div>

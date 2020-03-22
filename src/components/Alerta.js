@@ -2,8 +2,27 @@ import React, { useEffect } from 'react';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { TableRow, TableCell, Checkbox } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Alert } from '@material-ui/lab';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import InfoIcon from '@material-ui/icons/Info';
+import WarningIcon from '@material-ui/icons/Warning';
+import ErrorIcon from '@material-ui/icons/Error';
+
+const StyledTableCell = withStyles(theme => ({
+  body: {
+    fontSize: 14,
+    padding: 2,
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  }
+}))(TableCell);
+
+const StyledTableRow = withStyles(theme => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default
+    }
+  }
+}))(TableRow);
 
 export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   const useStyles = makeStyles({
@@ -15,6 +34,19 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
       backgroundColor: alerta.arquivado ? '#f9f9f9' : '#fff',
       fontStyle: alerta.arquivado ? 'italic' : 'normal',
       textDecoration: alerta.arquivado ? 'line-through' : 'normal'
+    },
+    alert: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      fontSize: '10px',
+      fontWeight: 'bold',
+      color:
+        alerta.level === 'debug'
+          ? '#2196f3'
+          : alerta.level === 'warning'
+          ? '#ff9700'
+          : '#F50057'
     }
   });
   const classes = useStyles();
@@ -36,8 +68,8 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
   ]);
 
   return (
-    <TableRow className={classes.tableRow}>
-      <TableCell align="center">
+    <StyledTableRow className={classes.tableRow}>
+      <StyledTableCell align="center">
         <Checkbox
           checked={checked}
           onChange={handleChangeCheck}
@@ -45,25 +77,40 @@ export default function Alerta({ alerta, id, checkados, setCheckados }, index) {
           color="primary"
           inputProps={{ 'aria-label': 'primary checkbox' }}
         />
-      </TableCell>
+      </StyledTableCell>
 
-      <TableCell align="center" className={classes.level}>
-        <Alert severity={alerta.level === 'debug' ? 'info' : alerta.level}>
+      <StyledTableCell
+        align="center"
+        className={classes.level}
+        style={{ width: '10%' }}
+      >
+        <div className={classes.alert}>
+          {alerta.level === 'debug' ? (
+            <InfoIcon />
+          ) : alerta.level === 'warning' ? (
+            <WarningIcon />
+          ) : (
+            <ErrorIcon />
+          )}
           {alerta.level.toUpperCase()}
-        </Alert>
-      </TableCell>
+        </div>
+      </StyledTableCell>
 
-      <TableCell className={classes.log} align="center">
+      <StyledTableCell align="center">
         <Link to={`/alert/${id}`}>{alerta.descricao}</Link>
+      </StyledTableCell>
+      <StyledTableCell align="center">
         <span>{alerta.origem}</span>
+      </StyledTableCell>
+      <StyledTableCell align="center">
         <span>
           <Moment unix format="DD/MM/YYYY HH:mm">
             {alerta.criadoEm.seconds}
           </Moment>
         </span>
-      </TableCell>
+      </StyledTableCell>
 
-      <TableCell align="center">{alerta.eventos}</TableCell>
-    </TableRow>
+      <StyledTableCell align="center">{alerta.eventos}</StyledTableCell>
+    </StyledTableRow>
   );
 }

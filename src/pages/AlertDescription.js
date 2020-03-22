@@ -1,5 +1,5 @@
 import React from 'react';
-import { Paper, makeStyles, Box, CircularProgress } from '@material-ui/core';
+import { makeStyles, CircularProgress, Container } from '@material-ui/core';
 import * as firebase from 'firebase/app';
 
 import AlertaEvent from '../components/Alert/AlertaEvent';
@@ -10,8 +10,8 @@ import BarraUsuario from '../components/BarraUsuario';
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: 30,
-    padding: 30
+    marginTop: 20,
+    position: 'relative'
   },
   flexScreen: {
     display: 'flex',
@@ -23,10 +23,18 @@ const useStyles = makeStyles(theme => ({
     flexFlow: 'column',
     alignItems: 'center',
     backgroundColor: '#f9f9f9',
-    flexGrow: 1
+    flexGrow: 1,
+    border: '1px solid #ddd'
   },
   fillContent: {
     width: '95%'
+  },
+  boxBody: {
+    display: 'flex',
+    flexDirection: 'row',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column'
+    }
   }
 }));
 
@@ -69,23 +77,28 @@ function AlertDescription(props) {
       <AlertaNav id={id} uid={uid} arquivado={arquivado} />
       <div className={classes.box}>
         <div className={classes.fillContent}>
-          <Paper className={classes.paper}>
-            {!isLoading && <CircularProgress />}
+          <Container>
+            {!isLoading && (
+              <CircularProgress style={{ marginLeft: '50%' }} left={-20} />
+            )}
             {isLoading && (
               <div>
                 <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
-                <Box display="flex" flexDirection="row">
-                  <AlertaBody title={alert.titulo} details={alert.detalhes} />
-                  <AlertaEvent
-                    severity={alert.level === 'debug' ? 'info' : alert.level}
-                    description={alert.level.toUpperCase()}
-                    eventos={alert.eventos}
-                    coletadoPor={alert.coletadoPor}
-                  />
-                </Box>
+                <AlertaEvent
+                  severity={alert.level === 'debug' ? 'info' : alert.level}
+                  description={alert.level.toUpperCase()}
+                  eventos={alert.eventos}
+                  coletadoPor={alert.coletadoPor}
+                  ambiente={alert.ambiente}
+                />
+                <AlertaBody
+                  title={alert.titulo}
+                  details={alert.detalhes}
+                  descricao={alert.descricao}
+                />
               </div>
             )}
-          </Paper>
+          </Container>
         </div>
       </div>
     </div>
