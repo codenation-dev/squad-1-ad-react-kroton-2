@@ -77,7 +77,11 @@ function AlertDescription(props) {
             {isLoading && (
               <div>
                 <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
-                <Box display="flex" flexDirection="row">
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  style={{ flexWrap: 'wrap' }}
+                >
                   <AlertaBody
                     title={alert.titulo}
                     details={alert.detalhes}
