@@ -5,10 +5,10 @@ const useStyles = makeStyles(theme => ({
   event: {
     marginTop: 20
   },
-  alertWidth: {
-    flexGrow: 4,
-    padding: 15
-  },
+  // alertWidth: {
+  //   flexGrow: 4,
+  //   padding: 15
+  // },
   divPadding: {
     padding: 15,
     [theme.breakpoints.down('sm')]: {
@@ -19,13 +19,17 @@ const useStyles = makeStyles(theme => ({
     fontFamily:
       '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, Sans-Serif',
     fontWeight: 'bold'
+  },
+  alertaBody: {
+    backgroundColor: '#eee',
+    border: '1px solid #ddd'
   }
 }));
 export default function AlertaBody({ title, details, descricao }) {
   const classes = useStyles();
   return (
     <>
-      <section className={classes.alertWidth}>
+      <section className={classes.alertaBody}>
         <div className={classes.divPadding}>
           <Typography variant="h5" className={classes.fontTitle}>
             Título
