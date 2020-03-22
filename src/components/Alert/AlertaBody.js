@@ -22,7 +22,8 @@ const useStyles = makeStyles(theme => ({
   },
   alertaBody: {
     backgroundColor: '#eee',
-    border: '1px solid #ddd'
+    border: '1px solid #ddd',
+    margin: 5
   }
 }));
 export default function AlertaBody({ title, details, descricao }) {
