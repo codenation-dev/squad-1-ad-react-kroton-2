@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Paper,
-  makeStyles,
-  Box,
-  CircularProgress,
-  Container
-} from '@material-ui/core';
+import { makeStyles, CircularProgress, Container } from '@material-ui/core';
 import * as firebase from 'firebase/app';
 
 import AlertaEvent from '../components/Alert/AlertaEvent';
@@ -83,7 +77,6 @@ function AlertDescription(props) {
       <AlertaNav id={id} uid={uid} arquivado={arquivado} />
       <div className={classes.box}>
         <div className={classes.fillContent}>
-          {/* <Paper className={classes.paper}> */}
           <Container>
             {!isLoading && (
               <CircularProgress style={{ marginLeft: '50%' }} left={-20} />
@@ -91,8 +84,6 @@ function AlertDescription(props) {
             {isLoading && (
               <div>
                 <AlertaHeader origem={alert.origem} criadoem={alert.criadoEm} />
-                {/* <Box> */}
-                {/* <div> */}
                 <AlertaEvent
                   severity={alert.level === 'debug' ? 'info' : alert.level}
                   description={alert.level.toUpperCase()}
@@ -105,12 +96,9 @@ function AlertDescription(props) {
                   details={alert.detalhes}
                   descricao={alert.descricao}
                 />
-                {/* </div> */}
-                {/* </Box> */}
               </div>
             )}
           </Container>
-          {/* </Paper> */}
         </div>
       </div>
     </div>

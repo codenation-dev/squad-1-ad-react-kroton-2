@@ -3,12 +3,8 @@ import { Typography, makeStyles, Divider } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
   event: {
-    marginTop: 20
+    // marginTop: 10
   },
-  // alertWidth: {
-  //   flexGrow: 4,
-  //   padding: 15
-  // },
   divPadding: {
     padding: 15,
     [theme.breakpoints.down('sm')]: {
@@ -18,12 +14,32 @@ const useStyles = makeStyles(theme => ({
   fontTitle: {
     fontFamily:
       '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, Sans-Serif',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#1976d3',
+    marginBottom: 5,
+    paddingLeft: '0.8rem'
   },
   alertaBody: {
     backgroundColor: '#eee',
     border: '1px solid #ddd',
-    margin: 5
+    margin: '0 5px 5px 5px'
+  },
+  fontDescription: {
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, Sans-Serif',
+    fontWeight: 500,
+    fontSize: '1rem',
+    marginTop: '1rem',
+    paddingLeft: '2rem'
+  },
+  fontDetails: {
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Arial, Sans-Serif',
+    fontWeight: 400,
+    fontStyle: 'italic',
+    fontSize: '0.8rem',
+    marginTop: '1rem',
+    paddingLeft: '2rem'
   }
 }));
 export default function AlertaBody({ title, details, descricao }) {
@@ -33,23 +49,11 @@ export default function AlertaBody({ title, details, descricao }) {
       <section className={classes.alertaBody}>
         <div className={classes.divPadding}>
           <Typography variant="h5" className={classes.fontTitle}>
-            Título
+            {title}
           </Typography>
-          <p>{title}</p>
-        </div>
-        <Divider />
-        <div className={classes.divPadding}>
-          <Typography variant="h5" className={classes.fontTitle}>
-            Descrição
-          </Typography>
-          <p>{descricao}</p>
-        </div>
-        <Divider />
-        <div className={classes.divPadding}>
-          <Typography variant="h5" className={classes.fontTitle}>
-            Detalhes
-          </Typography>
-          <p>{details}</p>
+          <Divider />
+          <p className={classes.fontDescription}>{descricao}</p>
+          <p className={classes.fontDetails}>-{details}</p>
         </div>
       </section>
     </>

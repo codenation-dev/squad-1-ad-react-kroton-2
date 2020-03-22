@@ -16,7 +16,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: '#ebebeb',
     borderTop: '2px solid #1976d3',
     padding: '10px 0',
-    marginTop: 10
+    marginTop: 10,
+    marginLeft: 5,
+    marginRight: 5
   }
 }));
 
