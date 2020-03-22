@@ -17,6 +17,12 @@ const useStyles = makeStyles(theme => ({
   },
   iconButton: {
     padding: 10
+  },
+  fontLabel: {
+    fontSize: '13px',
+    fontWeight: 500,
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
   }
 }));
 
@@ -33,9 +39,12 @@ export default function Pesquisa(props) {
 
   return (
     <FormControl className={classes.root}>
-      <InputLabel htmlFor="pesquisa">Pesquisa</InputLabel>
+      <InputLabel htmlFor="pesquisa" className={classes.fontLabel}>
+        Pesquisa
+      </InputLabel>
       <Input
         id="pesquisa"
+        className={classes.fontLabel}
         onChange={event => setValue(event.target.value)}
         value={value}
         endAdornment={

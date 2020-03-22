@@ -6,6 +6,7 @@ import BarraUsuario from '../components/BarraUsuario';
 import BarraCabecalho from '../components/BarraCabecalho';
 import Alerta from '../components/Alerta';
 import EmptyLista from '../components/EmptyLista';
+import { withStyles } from '@material-ui/core/styles';
 import { db } from '../firebase/config';
 import {
   TableContainer,
@@ -21,6 +22,23 @@ import {
   CircularProgress,
   Checkbox
 } from '@material-ui/core';
+
+const StyledTableCell = withStyles(theme => ({
+  head: {
+    fontSize: 12,
+    textTransform: 'uppercase',
+    fontWeight: 'bold',
+    backgroundColor: '#5d5d5d1f',
+    color: 'black',
+    padding: 10,
+    borderTop: '2px solid #1976d3',
+    fontFamily:
+      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"'
+  },
+  body: {
+    fontSize: 14
+  }
+}))(TableCell);
 
 export default function ErroLista() {
   const [alertas, setAlertas] = useState([]);
@@ -203,31 +221,34 @@ export default function ErroLista() {
       )}
       {isLoading && (
         <>
-          <BarraPesquisa
-            setAlertas={setAlertas}
-            handleSearch={handleSearch}
-            handleSearchBy={handleSearchBy}
-            handleOrderBy={handleOrderBy}
-            handleType={handleType}
-            searchBy={filters.searchBy}
-            orderBy={filters.orderBy}
-            type={filters.type}
-            setFilters={setFilters}
-            listaAlertas={listaAlertas}
-          ></BarraPesquisa>
-          {alertas.length === 0 && <EmptyLista />}
-          {alertas.length !== 0 && (
-            <>
-              <BarraCabecalho
-                handleArquivar={handleArquivar}
-                handleDeletar={handleDeletar}
-              ></BarraCabecalho>
-              <Container>
+          <Container>
+            <BarraPesquisa
+              setAlertas={setAlertas}
+              handleSearch={handleSearch}
+              handleSearchBy={handleSearchBy}
+              handleOrderBy={handleOrderBy}
+              handleType={handleType}
+              searchBy={filters.searchBy}
+              orderBy={filters.orderBy}
+              type={filters.type}
+              setFilters={setFilters}
+              listaAlertas={listaAlertas}
+            ></BarraPesquisa>
+            {alertas.length === 0 && <EmptyLista />}
+            {alertas.length !== 0 && (
+              <>
+                <BarraCabecalho
+                  handleArquivar={handleArquivar}
+                  handleDeletar={handleDeletar}
+                ></BarraCabecalho>
                 <TableContainer component={Paper} style={{ marginTop: '10px' }}>
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell align="center">
+                        <StyledTableCell
+                          style={{ width: '20px', padding: 0 }}
+                          align="center"
+                        >
                           {' '}
                           <Checkbox
                             checked={checkAll}
@@ -236,10 +257,16 @@ export default function ErroLista() {
                             color="primary"
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                           />
-                        </TableCell>
-                        <TableCell align="center">Level</TableCell>
-                        <TableCell align="center">Log</TableCell>
-                        <TableCell align="center">Eventos</TableCell>
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Level</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Descrição
+                        </StyledTableCell>
+                        <StyledTableCell align="center">Origem</StyledTableCell>
+                        <StyledTableCell align="center">Data</StyledTableCell>
+                        <StyledTableCell align="center">
+                          Eventos
+                        </StyledTableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -276,9 +303,9 @@ export default function ErroLista() {
                     </TableFooter>
                   </Table>
                 </TableContainer>
-              </Container>
-            </>
-          )}
+              </>
+            )}
+          </Container>
         </>
       )}
     </div>
