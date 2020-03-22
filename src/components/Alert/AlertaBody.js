@@ -10,7 +10,10 @@ const useStyles = makeStyles(theme => ({
     padding: 15
   },
   divPadding: {
-    padding: 15
+    padding: 15,
+    [theme.breakpoints.down('sm')]: {
+      padding: 5
+    }
   },
   fontTitle: {
     fontFamily:
