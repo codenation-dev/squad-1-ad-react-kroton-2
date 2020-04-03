@@ -77,7 +77,11 @@ export default function BarraPesquisa(props) {
         options={buscas}
       />
       <div style={{ display: 'flex', flexGrow: 1 }}>
-        <Pesquisa onSearch={props.handleSearch} toClean={toClean}></Pesquisa>
+        <Pesquisa
+          onSearch={props.handleSearch}
+          toClean={toClean}
+          setToClean={setToClean}
+        ></Pesquisa>
         <Tooltip title="Limpar Filtros" aria-label="Limpar filtros">
           <IconButton
             variant="outlined"

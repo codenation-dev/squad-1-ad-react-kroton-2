@@ -29,13 +29,14 @@ const useStyles = makeStyles(theme => ({
 export default function Pesquisa(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState('');
-  const { toClean } = props;
+  const { toClean, setToClean } = props;
 
   React.useEffect(() => {
     if (toClean) {
       setValue('');
+      setToClean(false);
     }
-  }, [toClean]);
+  }, [toClean, setToClean]);
 
   return (
     <FormControl className={classes.root}>
