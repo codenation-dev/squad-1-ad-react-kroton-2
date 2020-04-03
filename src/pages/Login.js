@@ -129,7 +129,7 @@ function Login({ history }) {
       </Paper>
       <div>
         <small>
-          Ainda não possuí cadastro? <Link to="/cadastro">Entre aqui</Link>
+          Ainda não possui cadastro? <Link to="/cadastro">Entre aqui</Link>
         </small>
       </div>
     </div>
