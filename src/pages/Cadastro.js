@@ -1,41 +1,46 @@
-import React, { useState } from 'react'
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
-import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { TextField, Typography, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Alert from '@material-ui/lab/Alert';
 import * as firebase from 'firebase/app';
+
+import LoadingButton from '../components/LoadingButton';
+import { ReactComponent as TrackErrLogo } from '../assets/logo_h_b.svg';
 import errors from '../errorsPtBR.json';
 
 const useStyles = makeStyles(theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
+  root: {
     display: 'flex',
     flexDirection: 'column',
+    height: '100vh',
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f9f9f9'
   },
-
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+  paper: {
+    width: 380,
+    padding: 40,
+    [theme.breakpoints.down('sm')]: {
+      width: 345
+    }
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-    width: '300px',
+  title: {
+    textAlign: 'center',
+    marginTop: '40px',
+    marginBottom: '20px'
   },
+  textMargin: {
+    marginBottom: 20
+  },
+  alert: {
+    color: '#de1414'
+  },
+  returnLogin: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: 30
+  }
 }));
-
-const defaultProps = {
-  bgcolor: 'background.paper',
-  borderColor: 'primary.main',
-  mt: 10,
-  border: 1
-};
 
 export default function Cadastro({ history }) {
   const classes = useStyles();
@@ -44,65 +49,71 @@ export default function Cadastro({ history }) {
   const [password, setPassword] = useState('');
   const [alerta, setAlerta] = useState(false);
   const [erro, setErro] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
-  async function createAccount() {
-    try {
-      const usuario = await firebase.auth().createUserWithEmailAndPassword(email, password);
-      alert("Usuário cadastro com sucesso.");
-      history.push('/Painel');
-    } catch (error) {
-      setErro(errors[error.code] ? errors[error.code] : error.message);
-      setAlerta(true);
-      console.log(error)
-    }
+  async function createAccount(event) {
+    event.preventDefault();
+    setIsLoading(true);
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(response => {
+        history.push('/');
+        setIsLoading(false);
+      })
+      .catch(error => {
+        setErro(errors[error.code] ? errors[error.code] : error.message);
+        setAlerta(true);
+        setIsLoading(false);
+      });
   }
 
   return (
-    <Container component="main" maxWidth="xs" >
-      <Box borderRadius={15} {...defaultProps}>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
+    <div className={classes.root}>
+      <Paper className={classes.paper} elevation={2}>
+        <form onSubmit={createAccount} noValidate autoComplete="off">
+          <TrackErrLogo />
+          <Typography className={classes.title} component="h1" variant="h5">
             Cadastro
-                </Typography>
+          </Typography>
 
-          <TextField
-            required
-            variant="outlined"
-            margin="normal"
-            className="meuInput"
-            id="email"
-            type="email"
-            label="e-mail"
-            value={email}
-            onChange={event => setEmail(event.target.value)}
-          />
+          <div className={classes.textMargin}>
+            <TextField
+              id="email"
+              type="email"
+              label="E-mail"
+              value={email}
+              onChange={event => setEmail(event.target.value)}
+              autoComplete="current-email"
+              fullWidth
+              required
+            />
+          </div>
+          <div>
+            <TextField
+              type="password"
+              id="password"
+              label="Senha"
+              value={password}
+              onChange={event => setPassword(event.target.value)}
+              autoComplete="current-password"
+              fullWidth
+              required
+            />
+          </div>
 
-          <TextField
-            required
-            variant="outlined"
-            margin="normal"
-            className="meuInput"
-            type="password"
-            id="password"
-            label="password"
-            value={password}
-            onChange={event => setPassword(event.target.value)}
-          />
+          {alerta && <small className={classes.alert}>{erro}</small>}
 
-          {alerta &&
-            <Alert className={classes.submit} variant="filled" severity="error">{erro}</Alert>
-          }
-
-          <Button
-            className={classes.submit}
-            variant="contained"
-            color="primary"
-            onClick={createAccount}>
+          <LoadingButton isLoading={isLoading} type="submit">
             Cadastrar
-                </Button>
+          </LoadingButton>
+        </form>
+        <div className={classes.returnLogin}>
+          <Link to="/login">
+            <small>Retornar ao Login</small>
+          </Link>
         </div>
-      </Box>
-    </Container>
-  )
+      </Paper>
+    </div>
+  );
 }
