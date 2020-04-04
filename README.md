@@ -85,3 +85,15 @@ Formatador que ajuda a manter o padrão por todo nosso código, independente do 
 ### Now
 
 Para fazer os builds de deploy e o host da nossa aplicação utilizamos o now, com ele conseguimos fazer o deploy sem a necessidade de fazer configurações.
+
+## Gerando dados falsos de alerta
+
+Para inserir dados falsos em um usuário, faça uma requisição para a seguinte URL (pode ser feito direto pelo browser):
+
+```
+https://us-central1-squad-1-ad-react-kroton-2.cloudfunctions.net/createUserData/{userId}
+```
+
+O userId pode ser adquirido em https://console.firebase.google.com/ na aba Database, conforme a imagem:
+
+![image](https://user-images.githubusercontent.com/11249408/75613746-10579100-5b10-11ea-8bcc-350f5e5b2696.png)
